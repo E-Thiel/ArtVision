@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.all("/", async (req, res) => {
 
-    console.log(db);
+    console.log('start migrate');
     
 
     await db.query(`
@@ -20,6 +20,23 @@ router.all("/", async (req, res) => {
             );
 
         `)
+
+        await db.query(`
+            DROP TABLE IF EXISTS materials;
+            CREATE TABLE materials (
+                id SERIAL PRIMARY KEY,  
+                name VARCHAR(255) NOT NULL
+                );
+        `)
+
+        await db.query(`
+            DROP TABLE IF EXISTS surfaces;
+            CREATE TABLE surfaces (
+                id SERIAL PRIMARY KEY,  
+                name VARCHAR(255) NOT NULL
+                );
+        `)
+
 
         res.status(201).json({
             "message":"migrated successfully"

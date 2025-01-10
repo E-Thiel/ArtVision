@@ -1,200 +1,107 @@
-// const express = require('express');
-// const router = express.Router();
-// const db = require('../libraries/dataBase')
+const express = require('express');
+const dataBase = require('../libraries/dataBase');
 
-// router.get("/users/:id", async (req, res) => {
-//     const { id } = req.params
-//     const userId = req.userId
+const router = express.Router();
 
-//     let record = await db.query(`
-//         SELECT 
-//                 users.userid::VARCHAR,
-//                 users.firstname,
-//                 users.lastname,
-//                 users.email,
-//                 users.phone
-//             FROM 
-//                 users
-//             LEFT JOIN 
-//                 organisation_user ON organisation_user.userid::VARCHAR = users.userid::VARCHAR
-//             LEFT JOIN 
-//                 organisation ON organisation.orgid::VARCHAR = organisation_user.orgid::VARCHAR
-//             WHERE
-//                 users.userid::VARCHAR = $1 and organisation_user.orgid::VARCHAR = $2
-//         `, [id, userId]);
+router.get('/general/materials', async (req, res) => {
+    const records = await dataBase.query('select * from materials');
+    res.send(records.rows)
+    console.log(records.rows);
 
-//     if (record.rowCount > 0) {
-//         let { userid, firstname, email, lastname, phone } = record.rows[0];
-//         return res.status(200).json(
-//             {
-//                 "status": "success",
-//                 "message": "Fetched successful",
-//                 "data": {
-//                     "userId": userid,
-//                     "firstName": firstname,
-//                     "lastName": lastname,
-//                     "email": email,
-//                     "phone": phone,
-//                 }
-//             }
-//         )
-//     } else {
-//         return res.status(400).json({
-//             "status": "Bad Request",
-//             "message": "Client error",
-//             "statusCode": 400
-//         })
-//     }
-// })
-// router.get("/organisations", async (req, res) => {
-//     const userId = req.userId
-//     let record = await db.query(`
-//         SELECT 
-//                 organisation.orgid::VARCHAR,
-//                 organisation.name::VARCHAR,
-//                 organisation.description::VARCHAR
-//             FROM organisation
-//             LEFT JOIN organisation_user ON
-//                 organisation_user.orgid::VARCHAR = organisation.orgid::VARCHAR
-//             WHERE 
-//                 organisation_user.userid::VARCHAR = $1
-//         `, [userId]);
+})
 
-//     if (record.rowCount > 0) {
-//         record.rows = record.rows.map(e => {
-//             e.orgId = e.orgid;
-//             delete e.orgid
-//             return e
-//         })
-//         return res.status(200).json(
-//             {
-//                 "status": "success",
-//                 "message": "Fetched successful",
-//                 "data": {
-//                     "organisations": record.rows
-//                 }
+router.post('/general/materials/add', async (req, res) => {
+    const { name } = req.body;
+    let errors = [];
 
-//             }
-//         )
-//     } else {
-//         return res.status(400).json({
-//             "status": "Bad Request",
-//             "message": "Client error",
-//             "statusCode": 400
-//         })
-//     }
-// })
-// router.post("/organisations", async (req, res) => {
-//     const userId = req.userId
-//     const { name, description } = req.body
-//     if (!name) {
-//         return res.status(400).json({
-//             "status": "Bad Request",
-//             "message": "Client error",
-//             "statusCode": 400
-//         })
-//     }
-//     let orgid = +userId;
-//     while (true) {
-//         orgid = orgid + Math.floor(Math.random() * 10)
-//         let _ = await db.query(`SELECT orgid from organisation where orgid=$1`, [orgid])
-//         if (_.rowCount == 0) {
-//             break;
-//         }
-//     }
-//     let record = await db.query(`
-//         INSERT INTO organisation(orgid,name,description,owner)
-//         values($1,$2,$3,$4)
-//         `, [
-//         orgid,
-//         name,
-//         description || "",
-//         userId
-//     ]);
+    if (!name || name.length == 0) {
+        errors.push({
+            "field": "name",
+            "message": "name is invalid"
+        })
+    }
 
-//     if (record.rowCount > 0) {
-//         await db.query(`
-//             INSERT INTO organisation_user(orgid,userid)
-//             values($1,$2)
-//             `, [
-//             orgid,
-//             userId
-//         ]);
-//         return res.status(201).json(
-//             {
-//                 "status": "success",
-//                 "message": "Organisation created successfully",
-//                 "data": {
-//                     "orgId": "" + orgid,
-//                     "name": name,
-//                     "description": description,
-//                 }
+    if (errors.length > 0) {
+        res.status(401)
+        res.send({
+            "Status": "Invalid inputs",
+            "message": errors
+        })
+    }
+    else {
 
-//             }
-//         )
-//     } else {
-//         return res.status(400).json({
-//             "status": "Bad Request",
-//             "message": "Client error",
-//             "statusCode": 400
-//         })
-//     }
-// })
-// router.post("/organisations/:orgId/users", async (req, res) => {
-//     const { orgId } = req.params
-//     const { userId } = req.body
+        const records = await dataBase.query('insert into materials (name) values ($1)', [name]).catch(err => {
+            res.status(500)
+            res.send(
+                {
+                    "Status": "rror writting to DB",
+                    "message": err.detail
+                }
+            )
+        })
 
-//     if (!userId) {
-//         return res.status(400).json({
-//             "status": "Bad Request",
-//             "message": "Client error",
-//             "statusCode": 400
-//         })
-//     }
+        if (records) {
+            res.status(200);
+            res.send(
+                {
+                    "Status": "Success",
+                    "message": `The material ${name} has been added!`
+                })
 
-//     let record = await db.query(`
-//         INSERT INTO organisation_user(orgid,userid)
-//         values($1,$2)
-//         `, [orgId, userId]);
+        }
+    }
 
-//     if (record.rowCount == 0) {
-//         return res.status(400).json({
-//             "status": "Bad Request",
-//             "message": "Client error",
-//             "statusCode": 400
-//         })
-//     }
-//     return res.status(200).json({
-//         "status": "success",
-//         "message": "User added to organisation successfully"
-//     })
+})
 
-// })
-// router.get("/organisations/:orgId", async (req, res) => {
-//     // const userId = req.userId
-//     const { orgId } = req.params
+router.get('/general/surfaces', async (req, res) => {
+    const records = await dataBase.query('select * from surfaces');
+    res.send(records.rows)
+    console.log(records.rows);
 
-//     let record = await db.query(`
-//         SELECT * from organisation where orgid::VARCHAR=$1
-//         `, [orgId])
+})
 
 
-//     if (record.rowCount > 0) {
-//         return res.status(200).json(
-//             {
-//                 "status": "success",
-//                 "message": "Fetched successful",
-//                 "data": record.rows[0]
+router.post('/general/surfaces/add', async (req, res) => {
+    const { name } = req.body;
+    let errors = [];
 
-//             }
-//         )
-//     } else {
-//         return res.status(400).json({
-//             "status": "Bad Request",
-//             "message": "Client error",
-//             "statusCode": 400
-//         })
-//     }
+    if (!name || name.length == 0) {
+        errors.push({
+            "field": "name",
+            "message": "name is invalid"
+        })
+    }
 
-// })
-// module.exports = router;
+    if (errors.length > 0) {
+        res.status(401)
+        res.send({
+            "Status": "Invalid inputs",
+            "message": errors
+        })
+    }
+    else {
+
+        const records = await dataBase.query('insert into surfaces (name) values ($1)', [name]).catch(err => {
+            res.status(500)
+            res.send(
+                {
+                    "Status": "rror writting to DB",
+                    "message": err.detail
+                }
+            )
+        })
+
+        if (records) {
+            res.status(200);
+            res.send(
+                {
+                    "Status": "Success",
+                    "message": `The surfaces ${name} has been added!`
+                })
+
+        }
+    }
+
+})
+
+module.exports = router;
