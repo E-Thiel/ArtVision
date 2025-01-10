@@ -157,10 +157,9 @@ router.post("/register",checkEmail,  async (req, res) => {
 })
 
 router.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    console.log({ email, password });    
-    
-    if (!email || !password) {
+    const { userName, password } = req.body;
+     
+    if (!userName || !password) {
         res.status(401);
         res.send({
             "Status": "Invalid inputs",
@@ -168,11 +167,11 @@ router.post("/login", async (req, res) => {
         })
     }
     else{
-        const records = await dataBase.query(`select * from users where email = $1`, [email]);
+        const records = await dataBase.query(`select * from users where user_name = $1`, [userName]);
         
         if(records.rowCount ===0 ){
             res.status(401)
-            res.send(`Login failed! Invalid email address!`);
+            res.send(`Login failed! Invalid user Name!`);
         }
         else{
             const passwordOk = await bcrypt.compare(password, records.rows[0].password);
@@ -183,7 +182,7 @@ router.post("/login", async (req, res) => {
             }
             else {
                 const token = jwt.sign(
-                    { email: records.rows[0].email, id: records.rows[0].id },
+                    {userName: records.rows[0].user_name, email: records.rows[0].email, id: records.rows[0].id },
                     process.env.JWT_SECRET,
                     {
                       algorithm: "HS512",

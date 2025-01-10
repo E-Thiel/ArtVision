@@ -19,3 +19,11 @@ For the password there are the following checks:
 - must contains minimum 1 number
 - must contains minimum 1 symbol
 - 
+
+/auth/login
+
+body params:
+- userName: mandatory , string
+- password: mandatory , string
+
+If succes it generates a key that contains userName, email and id of user.
