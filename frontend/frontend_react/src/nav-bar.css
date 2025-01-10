@@ -1,16 +1,19 @@
+
 * {
+/*universal modifications, delete if necessary*/
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
+
 #nav-container {
     width: 100vw;
-    height: 58px;
     background-color: #393E46;
     display:flex;
     align-items: center;
-    font-size: 15px;
+    font-size: 16px;
     position: sticky;
     top: 0;
 }
@@ -20,19 +23,20 @@
     display:flex;
     margin-left:auto;
     margin-right:auto;
-    
+    height: 58px;
 }
 
-#nav-bar ul {
+#nav-bar ul.nav-items {
     list-style-type: none;
     display:flex;
     align-content: center;
 }
 
-#nav-bar ul a{
+#nav-bar ul.nav-items a{
     text-decoration: none;
     color: #fff;
     margin-right: 30px;
+    font-weight: 600;
 }
 
 
@@ -43,6 +47,10 @@
 .nav-left, #nav-identify, .nav-left ul a  {
     display:flex;
     align-items: center;
+}
+
+#menu-container {
+    position: relative;
 }
 
 .nav-left .nav-icon {
@@ -71,4 +79,76 @@
 
 #nav-shopping {
     margin-right: 35px;
+}
+
+.nav-btn {
+    font-size: 14px;
+    text-align: center;
+    padding: 5px 13px;
+    border-radius: 3px;
+    border: none;
+}
+
+#signin-btn > button {
+    background-color: rgba(217, 217, 217, 1);
+    color: rgba(57, 62, 70, 1);
+}
+
+#register-btn > button {
+    color: rgba(238, 238, 238, 1);
+    background-color: rgba(0, 173, 181, 1);
+    margin-left: 15.47px;
+}
+
+#signin-btn > button:hover {
+    background-color: rgb(231, 231, 231);
+}
+
+#register-btn > button:hover {
+    background-color: rgb(0, 193, 203);
+}
+
+
+#nav-hamburger, #nav-shopping {
+    cursor: pointer;
+}
+
+#nav-dropdown {
+border: 1px 0px 0px 0px;
+background-color: rgba(255, 255, 255, 1);
+border: 1px solid var(--Border-Default-Default, rgba(217, 217, 217, 1));
+box-shadow: var(--sds-size-depth-0) var(--sds-size-depth-025) var(--sds-size-depth-100) var(--sds-size-depth-0) var(--sds-color-black-200);
+border-radius: 8px;
+position: absolute;
+left: -200%;
+}
+
+#nav-dropdown ul {
+    list-style: none;
+}
+
+#nav-dropdown ul li {
+    padding: 4px 8px 4px 8px;
+}
+
+#nav-dropdown a {
+    display:block;
+}
+
+#nav-dropdown ul li:hover {
+    background-color:lightgray;
+}
+
+#nav-dropdown ul:first-child {
+    padding-top: 8px;
+}
+
+#nav-dropdown ul:last-child {
+    padding-bottom: 8px;
+}
+
+#nav-dropdown ul a {
+    color: rgba(30, 30, 30, 1);
+    font-weight: 400;
+    font-size: 16px;
 }
