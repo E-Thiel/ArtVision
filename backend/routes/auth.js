@@ -77,7 +77,7 @@ const checkPassword = (req, res, next) => {
 
 
 router.post("/register",checkEmail,  async (req, res) => {
-    let { name, email, phone, password , address, artist} = req.body;
+    let {user_name, name, email, phone, password , address, artist} = req.body;
 
     // check mandatory fields
     let errors = [];
@@ -87,6 +87,13 @@ router.post("/register",checkEmail,  async (req, res) => {
             "field": "name",
             "message": "name is invalid"
         })
+    }
+
+    if (!user_name || user_name.length == 0) {
+      errors.push({
+          "field": "user_name",
+          "message": "user_name is invalid"
+      })
     }
    
     if (!password || password.length == 0) {
@@ -116,9 +123,10 @@ router.post("/register",checkEmail,  async (req, res) => {
     
         const encrypt_password = await bcrypt.hash(password, 10);
     
-        const records =  await dataBase.query(`INSERT INTO users (name, email, password, phone, address, artist)
-          VALUES ($1, $2, $3, $4, $5, $6)`, 
+        const records =  await dataBase.query(`INSERT INTO users (user_name, name, email, password, phone, address, artist)
+          VALUES ($1, $2, $3, $4, $5, $6, $7)`, 
           [
+            user_name,
             name,
             email,
             encrypt_password,
@@ -141,7 +149,7 @@ router.post("/register",checkEmail,  async (req, res) => {
             res.send(
                 {
                     "Status": "Success",
-                    "message": `The user ${email} has been created!`            
+                    "message": `The user ${user_name} has been created!`            
                 })
                 
         }
