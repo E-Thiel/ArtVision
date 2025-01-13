@@ -1,0 +1,62 @@
+* {
+    /*universal modifications, delete if necessary*/
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+#access-form {
+    color: rgba(57, 62, 70, 1);
+    margin-left:auto;
+    margin-right:auto;
+    border: 1px solid rgba(217, 217, 217, 1);
+    max-width: 340px;
+    margin-top: 40px;
+    padding: 40px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+#access-form h2 {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 23px;
+}
+
+#access-form input, #access-form label {
+    display: block;
+}
+
+#access-form input {
+    border: 1px solid rgba(217, 217, 217, 1);
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+
+#access-form label {
+    margin-bottom: 9px;
+}
+
+.access-form-btn {
+    color: rgba(238, 238, 238, 1);
+    background-color: rgba(0, 173, 181, 1);
+    font-size: 16px;
+    text-align: center;
+    padding: 5px 13px;
+    border-radius: 3px;
+    border: none;
+    width: 100%;
+}
+
+
+.access-form-btn:hover {
+    background-color: rgb(0, 193, 203);
+}
+
+.password-text {
+    color: rgba(117, 117, 117, 1);
+    text-align: right;
+    display:block;
+}

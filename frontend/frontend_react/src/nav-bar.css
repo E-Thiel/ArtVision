@@ -133,6 +133,7 @@ left: -200%;
 
 #nav-dropdown a {
     display:block;
+    text-decoration: none;
 }
 
 #nav-dropdown ul li:hover {
