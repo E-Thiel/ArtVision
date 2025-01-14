@@ -1,0 +1,19 @@
+.home-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+
+  .filters-section {
+    flex: 1;
+    max-width: 300px;
+  }
+  
+
+  .products-section {
+    flex: 3;
+  }
+  

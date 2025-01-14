@@ -1,36 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { getProducts } from "./api/products";
+import React, { useState } from "react";
+import "./Home.css";
+import Filters from "./components/Filters";
+import Product from "./components/Product.jsx";
 
 function Home() {
-    const [products, setProducts] = useState([]);
-  
-    useEffect(() => {
-      const fetchProducts = async () => {
-        const data = await getProducts(); 
-        setProducts(data); 
-      };
-  
-      fetchProducts(); 
-    }, []);
-  
-    return (
-      <div>
-        <h1>Home</h1>
-        <ul>
-          {products.map((product) => (
-            <li key={product.id}>
-              <h2>{product.title}</h2>
-              <p>{product.description}</p>
-              <p>{product.material}</p>
-              <p>{product.surface}</p>
-              <p>{product.size}</p>
-              <p>Price: ${product.price}</p>
-              <img src={product.image} alt={product.title} />
-            </li>
-          ))}
-        </ul>
+    const [filters, setFilters] = useState({});
+
+  return (
+    <div className="home-page">
+      <div className="filters-section">
+        <Filters onFilterChange={setFilters} />
       </div>
-    );
-  }
-  
-  export default Home;
+      <div className="products-section">
+        <Product filters={filters} />
+      </div>
+    </div>
+  );
+}
+
+export default Home;
