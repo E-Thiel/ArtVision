@@ -60,3 +60,7 @@
     text-align: right;
     display:block;
 }
+
+.mandatory-field::after {
+    content: " *";
+}

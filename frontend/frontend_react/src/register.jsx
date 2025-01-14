@@ -1,172 +1,95 @@
-import { useState } from 'react'
-import './login-signup.css'
+import { useRef, useState } from 'react'
+import './registersignin.css'
 
 
+const Register = () => {
 
-function Form() {
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+
+const userRef = useRef();
+const emailRef = useRef();
+const passwRef = useRef();
+const nameRef = useRef();
+const phoneRef = useRef();
+const addressRef = useRef();
+const artistRef = useRef();
+
+
+const [formData, setFormData] = useState({
+    user_name: '',
+    email: '',
+    password: '',
+    name: '',
+    phone: '',
+    address: '',
+    artist: '',
+});
+
+
+const checkIfArtist = () => {
+    if (artistRef.current.checked === true) {
+        return '1';
+    } else {
+        return '0';
+    }
+}
+
+const sendRegistration = () => {
+  setFormData({
+    user_name: userRef.current.value,
+    email: emailRef.current.value,
+    password: passwRef.current.value,
+    name: nameRef.current.value,
+    phone: phoneRef.current.value,
+    address: addressRef.current.value,
+    artist:checkIfArtist(),
     });
+  console.log(formData);
+}
 
-    const [errors, setErrors] = useState({});
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const newErrors = validateForm(formData);
-        setErrors(newErrors);
-
-        if (Object.keys(newErrors).length === 0) {
-            // Form submission logic here
-            console.log('Form submitted successfully!');
-        } else {
-            console.log('Form submission failed due to validation errors.');
-        }
-    };
-
-    const validateForm = (data) => {
-        const errors = {};
-
-        if (!data.username.trim()) {
-            errors.username = 'Username is required';
-        } else if (data.username.length < 4) {
-            errors.username = 'Username must be at least 4 characters long';
-        }
-
-        if (!data.email.trim()) {
-            errors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(data.email)) {
-            errors.email = 'Email is invalid';
-        }
-
-        if (!data.password) {
-            errors.password = 'Password is required';
-        } else if (data.password.length < 8) {
-            errors.password = 'Password must be at least 8 characters long';
-        }
-
-        if (data.confirmPassword !== data.password) {
-            errors.confirmPassword = 'Passwords do not match';
-        }
-
-        return errors;
-    };
-
-    return (
-        <div className="form-container">
-            <h2 className="form-title">Form Validation</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label className="form-label">
-                        Username:
-                    </label>
-                    <input
-                        className="form-input"
-                        type="text"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                    />
-                    {errors.username && (
-                        <span className="error-message">
-                            {errors.username}
-                        </span>
-                    )}
-                </div>
-                <div>
-                    <label className="form-label">
-                        Email:
-                    </label>
-                    <input
-                        className="form-input"
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-                    {errors.email && (
-                        <span className="error-message">
-                            {errors.email}
-                        </span>
-                    )}
-                </div>
-                <div>
-                    <label className="form-label">
-                        Password:
-                    </label>
-                    <input
-                        className="form-input"
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
-                    {errors.password && (
-                        <span className="error-message">
-                            {errors.password}
-                        </span>
-                    )}
-                </div>
-                <div>
-                    <label className="form-label">
-                        Confirm Password:
-                    </label>
-                    <input
-                        className="form-input"
-                        type="password"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                    />
-                    {errors.confirmPassword && (
-                        <span className="error-message">
-                            {errors.confirmPassword}
-                        </span>
-                    )}
-                </div>
-                <button className="submit-button" type="submit">Submit</button>
-            </form>
-        </div>
-    );
+const validateForm = () => {
+    const pWord = passwRef.current.value;
+    const numUpper = pWord.length - pWord.replace(/[A-Z]/g, '').length;  
+    const numLower = pWord.replace(/[A-Z]/g, '').length;
+    const hasNumber = /\d/.test(pWord);
+    const hasSpecial = /[^A-Za-z0-9]/.test(pWord);
+    console.log(hasSpecial);
+    /*if (passwRef.current.value < 8) {
+        console.log("password too short");
+    }*/
 }
 
 
-const SignUp = () => {
-
-
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-    });
-
-    const [errors, setErrors] = useState({});
-
-  
     return (
-            <form id="access-form">
+            <form id="access-form" onSubmit={e => { e.preventDefault();
+                sendRegistration(); validateForm();}}
+            >
                 <h2>Create your account</h2>
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email"/>
+
+                <label htmlFor="username" className="mandatory-field">Username</label>
+                <input type="text" id="username" ref={userRef}/>
+
+                <label htmlFor="email" className="mandatory-field">Email</label>
+                <input type="email" id="email" ref={emailRef}/>
+
+                <label htmlFor="name" className="mandatory-field">Name</label>
+                <input type="text" id="name" ref={nameRef}/>
+
                 <label htmlFor="password">Password</label>
-                <input type="password" id="password" />
-                <label htmlFor="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" />
-                <input type="button" value="Register" class="access-form-btn"/>
+                <input type="password" id="password" ref={passwRef}/>
+
+                <label htmlFor="phone">Phone</label>
+                <input type="text" id="phone" ref={phoneRef}/>
+
+                <label htmlFor="address">Address</label>
+                <input type="text" id="address" ref={addressRef}/>
+
+                <label htmlFor="artist-check">Are you an artist?</label>
+                <input type="checkbox" id="artist-check" ref={artistRef}/>
+        
+                <input type="submit" value="Register" class="access-form-btn"/>
           </form>
     )
   }
   
-  export default SignUp
+  export default Register
   
