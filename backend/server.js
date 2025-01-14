@@ -3,6 +3,7 @@ const apiRoute = require('./routes/api.js')
 const authRoute = require('./routes/auth.js')
 //const loggedIn = require('./middlewares/auth_middleware')
 const migrateRoute = require('./routes/migrate.js')
+const picturesRoute = require('./routes/imagesApi.js')
 require('dotenv').config();
 
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/api',  apiRoute);
 app.use('/auth', authRoute);
 app.use('/migrate', migrateRoute);
+app.use('/picture', picturesRoute);
 
 app.get("/", (req, res) => {
     res.status(200).json({

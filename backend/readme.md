@@ -95,6 +95,99 @@ body params all mandatory:
     "max_area": 100
 }
 
+
+/picture/upload
+POST
+file
+id_material
+id_surface
+id_user
+
+/picture/getAll
+GET
+[
+    {
+        "id": 12,
+        "id_material": 1,
+        "material_name": "Glass",
+        "id_surface": 1,
+        "surface_name": "Glass",
+        "title": "Title",
+        "description": "Description",
+        "length": "100",
+        "width": "200",
+        "price": "9.8",
+        "share_path": "https://res.cloudinary.com/do5lfyys6/image/upload/v1736859790/dn6gk6u3daxj8wp8rpyt.jpg",
+        "id_user": 1,
+        "name": "RO-TARU",
+        "uploaded_date": null
+    },
+    {
+        "id": 13,
+        "id_material": 1,
+        "material_name": "Glass",
+        "id_surface": 1,
+        "surface_name": "Glass",
+        "title": "Title",
+        "description": "Description",
+        "length": "100",
+        "width": "200",
+        "price": "9.8",
+        "share_path": "https://res.cloudinary.com/do5lfyys6/image/upload/v1736859888/dzfw9hmtaswzjkkrddkr.jpg",
+        "id_user": 1,
+        "name": "RO-TARU",
+        "uploaded_date": null
+    },
+    {
+        "id": 14,
+        "id_material": 1,
+        "material_name": "Glass",
+        "id_surface": 1,
+        "surface_name": "Glass",
+        "title": "Title",
+        "description": "Description",
+        "length": "100",
+        "width": "200",
+        "price": "9.8",
+        "share_path": "https://res.cloudinary.com/do5lfyys6/image/upload/v1736859949/c6sfepk3mf61odtkmsfb.jpg",
+        "id_user": 1,
+        "name": "RO-TARU",
+        "uploaded_date": null
+    },
+    {
+        "id": 15,
+        "id_material": 1,
+        "material_name": "Glass",
+        "id_surface": 1,
+        "surface_name": "Glass",
+        "title": "Title",
+        "description": "Description",
+        "length": "100",
+        "width": "200",
+        "price": "9.8",
+        "share_path": "https://res.cloudinary.com/do5lfyys6/image/upload/v1736860864/vepzsapg7z6osfntdy68.jpg",
+        "id_user": 1,
+        "name": "RO-TARU",
+        "uploaded_date": null
+    },
+    {
+        "id": 16,
+        "id_material": 1,
+        "material_name": "Glass",
+        "id_surface": 1,
+        "surface_name": "Glass",
+        "title": "Title",
+        "description": "Description",
+        "length": "100",
+        "width": "200",
+        "price": "9.8",
+        "share_path": "https://res.cloudinary.com/do5lfyys6/image/upload/v1736861133/vbv77d64bllynnd3ahab.jpg",
+        "id_user": 1,
+        "name": "RO-TARU",
+        "uploaded_date": "2025-01-13T23:00:00.000Z"
+    }
+]
+
 for me:
 
 
