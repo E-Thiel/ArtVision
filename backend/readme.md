@@ -2,6 +2,8 @@ API
 
 /auth/register
 
+POST
+
 body params :
 
 - user_name: mandatory, string
@@ -22,8 +24,61 @@ For the password there are the following checks:
 
 /auth/login
 
+POST
+
 body params:
 - userName: mandatory , string
 - password: mandatory , string
 
 If succes it generates a key that contains userName, email and id of user.
+
+/api//general/materials/add
+
+POST
+
+body params:
+- name: mandatory , string
+
+
+/api//general/surfaces/add
+
+POST
+
+body params:
+- name: mandatory , string
+
+
+/api//general/materials
+
+GET
+
+returns an array of objects :
+[
+    {
+        "id": 1,
+        "name": "The name of the material"
+    }
+]
+
+/api//general/surfaces
+
+GET
+
+returns an array of objects :
+[
+    {
+        "id": 1,
+        "name": "The name of the surface"
+    }
+]
+
+
+for me:
+
+
+ip route show | grep -i default | awk '{ print $3}'
+
+172.29.176.1\
+
+pg_hba.conf
+host  all  all 0.0.0.0/0 md5

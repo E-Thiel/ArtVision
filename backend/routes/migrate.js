@@ -38,6 +38,39 @@ router.all("/", async (req, res) => {
                 );
         `)
 
+        await db.query(`
+            DROP TABLE IF EXISTS paintings;
+            CREATE TABLE IF NOT EXISTS public.paintings
+            (
+                id SERIAL PRIMARY KEY, 
+                id_user integer,
+                title text COLLATE pg_catalog."default" NOT NULL,
+                description text COLLATE pg_catalog."default" NOT NULL,
+                id_material integer,
+                id_surface integer,
+                length numeric,
+                width numeric,
+                price numeric,
+                status text COLLATE pg_catalog."default",
+                
+                CONSTRAINT fk_material FOREIGN KEY (id_material)
+                    REFERENCES public.materials (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION
+                    ON DELETE NO ACTION
+                    NOT VALID,
+                CONSTRAINT fk_surface FOREIGN KEY (id_surface)
+                    REFERENCES public.surfaces (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION
+                    ON DELETE NO ACTION
+                    NOT VALID,
+                CONSTRAINT fk_user FOREIGN KEY (id_user)
+                    REFERENCES public.users (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION
+                    ON DELETE NO ACTION
+                    NOT VALID
+            )
+            `)
+
 
         res.status(201).json({
             "message":"migrated successfully"
