@@ -38,49 +38,51 @@ router.all("/", async (req, res) => {
                 );
         `)
 
+        await db.query(`DROP TABLE IF EXISTS public.dimensions;
+
+            CREATE TABLE IF NOT EXISTS public.dimensions
+            (
+                id SERIAL PRIMARY KEY ,
+                name text ,
+                min_area numeric,
+                max_area numeric                    
+            )
+        `)
+
         await db.query(`
-            DROP TABLE IF EXISTS paintings;
+            DROP TABLE IF EXISTS public.paintings;
+
             CREATE TABLE IF NOT EXISTS public.paintings
             (
-                id SERIAL PRIMARY KEY, 
+                id SERIAL PRIMARY KEY NOT NULL, 
                 id_user integer,
-                title text COLLATE pg_catalog."default" NOT NULL,
-                description text COLLATE pg_catalog."default" NOT NULL,
+                title text,
+                description text,
                 id_material integer,
                 id_surface integer,
                 length numeric,
                 width numeric,
                 price numeric,
-                status text COLLATE pg_catalog."default",
-                
+                status text ,
+                original_file_name text,
+                share_path text ,
+                uploaded_date date,                
                 CONSTRAINT fk_material FOREIGN KEY (id_material)
                     REFERENCES public.materials (id) MATCH SIMPLE
                     ON UPDATE NO ACTION
-                    ON DELETE NO ACTION
-                    NOT VALID,
+                    ON DELETE NO ACTION,
                 CONSTRAINT fk_surface FOREIGN KEY (id_surface)
                     REFERENCES public.surfaces (id) MATCH SIMPLE
                     ON UPDATE NO ACTION
-                    ON DELETE NO ACTION
-                    NOT VALID,
+                    ON DELETE NO ACTION,
                 CONSTRAINT fk_user FOREIGN KEY (id_user)
                     REFERENCES public.users (id) MATCH SIMPLE
                     ON UPDATE NO ACTION
                     ON DELETE NO ACTION
-                    NOT VALID
             )
             `)
 
-        await db.query(`DROP TABLE IF EXISTS public.dimensions;
-
-                CREATE TABLE IF NOT EXISTS public.dimensions
-                (
-                    id SERIAL PRIMARY KEY ,
-                    name text ,
-                    min_area numeric,
-                    max_area numeric                    
-                )
-            `)
+       
 
 
         res.status(201).json({
