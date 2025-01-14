@@ -48,7 +48,7 @@ body params:
 - name: mandatory , string
 
 
-/api//general/materials
+/api/general/materials
 
 GET
 
@@ -72,6 +72,28 @@ returns an array of objects :
     }
 ]
 
+
+
+/api/general/dimensions
+GET
+returns an array of objects:
+[
+    {
+        "id": "3",
+        "name": "small",
+        "min_area": "0",
+        "max_area": "100"
+    }
+]
+
+/api/general/dimensions/add
+POST
+body params all mandatory:
+{
+    "name": "small",
+    "min_area": "0",
+    "max_area": 100
+}
 
 for me:
 

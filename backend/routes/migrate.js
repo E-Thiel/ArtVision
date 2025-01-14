@@ -71,6 +71,17 @@ router.all("/", async (req, res) => {
             )
             `)
 
+        await db.query(`DROP TABLE IF EXISTS public.dimensions;
+
+                CREATE TABLE IF NOT EXISTS public.dimensions
+                (
+                    id SERIAL PRIMARY KEY ,
+                    name text ,
+                    min_area numeric,
+                    max_area numeric                    
+                )
+            `)
+
 
         res.status(201).json({
             "message":"migrated successfully"
