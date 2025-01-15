@@ -76,7 +76,7 @@ const checkPassword = (req, res, next) => {
 };
 
 
-router.post("/register",checkEmail,  async (req, res) => {
+router.post("/register",checkEmail, checkPassword, async (req, res) => {
     let {user_name, name, email, phone, password , address, artist} = req.body;
 
     // check mandatory fields

@@ -12,9 +12,10 @@ const authenticateToken = (req, res, next) => {
       }
       req.username = decoded.email;
       req.id_user = decoded.id;
+      req.email = decoded.email;
   
       next();
     });
   };
 
-  export default authenticateToken;
+module.exports = authenticateToken;

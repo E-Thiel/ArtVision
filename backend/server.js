@@ -1,7 +1,6 @@
 const express = require('express');
 const apiRoute = require('./routes/api.js')
 const authRoute = require('./routes/auth.js')
-//const loggedIn = require('./middlewares/auth_middleware')
 const migrateRoute = require('./routes/migrate.js')
 const picturesRoute = require('./routes/imagesApi.js')
 require('dotenv').config();

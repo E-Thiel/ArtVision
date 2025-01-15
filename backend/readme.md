@@ -98,10 +98,13 @@ body params all mandatory:
 
 /picture/upload
 POST
-file
-id_material
-id_surface
-id_user
+Authorization: Token (that its generated on login - see /auth/login). Is mandatory.
+
+Body:
+image (file)
+id_material (text)
+id_surface (text)
+
 
 /picture/getAll
 GET

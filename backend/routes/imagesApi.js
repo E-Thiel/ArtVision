@@ -4,6 +4,7 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const dataBase = require('../libraries/dataBase');
 const { route } = require('./api');
+const authenticateToken = require('../middlewares/authenticateToken');
 require('dotenv').config();
 
 const router = express.Router();
@@ -17,48 +18,82 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-router.post('/upload', upload.single('image'), async (req, res) => {
-    const file = req.file;
-    const {id_material, id_surface, id_user} =  req.body;
+router.use(authenticateToken);
 
-    if (!file) {
-        return res.status(400).json({ error: 'No file uploaded' });
+router.post('/upload', upload.single('image'), async (req, res) => {
+    const myImage = req.file;
+    const { id_material, id_surface } = req.body;
+
+    let errors =[];
+
+    if (!id_material) {
+        errors.push({
+            "field": "id_material",
+            "message": "id_material is invalid"
+        })
+      }
+
+    if (!id_surface) {
+        errors.push({
+            "field": "id_surface",
+            "message": "id_surface is invalid"
+        })
     }
 
-    try {
-        // Upload the image to Cloudinary
-        const result = await cloudinary.uploader.upload(file.path);
-                
-        // insert into db
-        const records = await dataBase.query(`INSERT INTO public.paintings(
+    if(!myImage){
+        errors.push({
+            "field": "image",
+            "message": "No file uploaded!"
+        })
+    }
+
+    if(errors.length > 0) {
+        return res.status(400).json(errors);
+    }
+    else {
+        const uploadResultCloudinary = await cloudinary.uploader.upload(myImage.path);
+        console.log("Succes upload in cloud");
+        
+        await dataBase.pool.query(`INSERT INTO public.paintings(
          id_user, title, description, id_material, id_surface, length, width, price, status,  original_file_name, share_path, uploaded_date)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
-         [id_user, 'Title', 'Description', id_material, id_surface, '100', '200', 9.8, 'Insert',  result.original_filename, result.secure_url, (new Date()).toLocaleDateString()])
-            .catch(err => {
-                res.status(500)
-                res.send(
+            [req.id_user, 'Title', 'Description', id_material, id_surface, '100', '200', 9.8, 'Insert', uploadResultCloudinary.original_filename, uploadResultCloudinary.secure_url, (new Date()).toLocaleDateString()],
+        (error, results) => {
+            if(error) {
+                console.log('Error writting in DB');
+
+                //delete the picture from Cloudinary
+                cloudinary.api
+                        .delete_resources([uploadResultCloudinary.public_id],
+                            { type: 'upload', resource_type: 'image' })
+                        ;
+
+                return res.status(500).json(
                     {
-                        "Status": "rror writting to DB",
-                        "message": err
-                    }
-                )
-            }) 
-
-        res.status(200).json({
-            message: 'Image uploaded successfully',
-            url: result.secure_url,
-        });
-
-    } catch (err) {
-        console.error('Cloudinary error:', err);
-        res.status(500).json({ error: 'Failed to upload image' });
+                        "Status": "error writting to DB",
+                        "message": error
+                    });
+            }
+            else {
+                if(results.affectedRows === 0){
+                    res.send('No data inserted!')
+                  }
+                  else {
+                    res.status(200).json({
+                        message: 'Image uploaded successfully',
+                        url: uploadResultCloudinary.secure_url,
+                    });
+                  }
+            }
+        })
     }
-});
+
+})
 
 
 router.get('/getAll', async (req, res) => {
     try {
-      const result = await dataBase.pool.query(`select 
+        const result = await dataBase.pool.query(`select 
             p.id, p.id_material, m.name material_name,
             p.id_surface, s.name as surface_name,
             p.title, p.description, p.length, p.width, p.price, p.share_path,
@@ -67,11 +102,11 @@ router.get('/getAll', async (req, res) => {
             join materials as m on p.id_material = m.id
             join surfaces as s on p.id_surface = s.id
             join users as u on p.id_user = u.id`);
-      res.status(200).json(result.rows);
+        res.status(200).json(result.rows);
     } catch (err) {
-      console.error('Database error:', err);
-      res.status(500).json({ error: 'Failed to fetch images' });
+        console.error('Database error:', err);
+        res.status(500).json({ error: 'Failed to fetch images' });
     }
-  });
+});
 
 module.exports = router;
