@@ -22,7 +22,7 @@ cloudinary.config({
 
 router.post('/upload', upload.single('image'), authenticateToken, async (req, res) => {
     const myImage = req.file;
-    const { id_material, id_surface } = req.body;
+    const { id_material, id_surface, title, description, width, height , price } = req.body;
 
     let errors = [];
 
@@ -47,6 +47,41 @@ router.post('/upload', upload.single('image'), authenticateToken, async (req, re
         })
     }
 
+    if (!title) {
+        errors.push({
+            "field": "title",
+            "message": "title is invalid"
+        })
+    }
+
+    if (!description) {
+        errors.push({
+            "field": "description",
+            "message": "description is invalid"
+        })
+    }
+
+    if (!width) {
+        errors.push({
+            "field": "width",
+            "message": "width is invalid"
+        })
+    }
+
+    if (!height) {
+        errors.push({
+            "field": "height",
+            "message": "height is invalid"
+        })
+    }
+
+    if (!price) {
+        errors.push({
+            "field": "price",
+            "message": "price is invalid"
+        })
+    }
+
     if (errors.length > 0) {
         return res.status(400).json(errors);
     }
@@ -57,9 +92,9 @@ router.post('/upload', upload.single('image'), authenticateToken, async (req, re
         console.log("Succes upload in cloud");
 
         await dataBase.pool.query(`INSERT INTO public.paintings(
-         id_user, title, description, id_material, id_surface, length, width, price, status,  original_file_name, share_path, uploaded_date)
+         id_user, title, description, id_material, id_surface, width, height, price, status,  original_file_name, share_path, uploaded_date)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
-            [req.id_user, 'Title', 'Description', id_material, id_surface, '100', '200', 9.8, 'Insert', uploadResultCloudinary.original_filename, uploadResultCloudinary.secure_url, (new Date()).toLocaleDateString()],
+            [req.id_user, title, description,  id_material, id_surface, width, height, price, 'Insert', uploadResultCloudinary.original_filename, uploadResultCloudinary.secure_url, (new Date()).toLocaleDateString()],
             (error, results) => {
                 if (error) {
                     console.log('Error writting in DB');

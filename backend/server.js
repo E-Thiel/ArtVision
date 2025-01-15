@@ -3,6 +3,8 @@ const apiRoute = require('./routes/api.js')
 const authRoute = require('./routes/auth.js')
 const migrateRoute = require('./routes/migrate.js')
 const picturesRoute = require('./routes/imagesApi.js')
+const cors = require('cors');
+
 require('dotenv').config();
 
 
@@ -10,6 +12,7 @@ const app = express();
 const port = process.env.PORT;
 
 // Middleware to parse JSON bodies
+app.use(cors());
 app.use(express.json());
 
 // Use routes

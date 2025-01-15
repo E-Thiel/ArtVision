@@ -1,11 +1,13 @@
 const express = require('express');
 const db = require('../libraries/dataBase');
+const { insertMaterialsiIntoDb } = require('../middlewares/db')
+
 const router = express.Router();
 
 router.all("/", async (req, res) => {
 
     console.log('start migrate');
-    
+
 
     await db.query(`
         DROP TABLE IF EXISTS users;
@@ -22,7 +24,7 @@ router.all("/", async (req, res) => {
 
         `)
 
-        await db.query(`
+    await db.query(`
             DROP TABLE IF EXISTS materials;
             CREATE TABLE materials (
                 id SERIAL PRIMARY KEY,  
@@ -30,7 +32,7 @@ router.all("/", async (req, res) => {
                 );
         `)
 
-        await db.query(`
+    await db.query(`
             DROP TABLE IF EXISTS surfaces;
             CREATE TABLE surfaces (
                 id SERIAL PRIMARY KEY,  
@@ -38,7 +40,7 @@ router.all("/", async (req, res) => {
                 );
         `)
 
-        await db.query(`DROP TABLE IF EXISTS public.dimensions;
+    await db.query(`DROP TABLE IF EXISTS public.dimensions;
 
             CREATE TABLE IF NOT EXISTS public.dimensions
             (
@@ -49,7 +51,7 @@ router.all("/", async (req, res) => {
             )
         `)
 
-        await db.query(`
+    await db.query(`
             DROP TABLE IF EXISTS public.paintings;
 
             CREATE TABLE IF NOT EXISTS public.paintings
@@ -60,8 +62,8 @@ router.all("/", async (req, res) => {
                 description text,
                 id_material integer,
                 id_surface integer,
-                length numeric,
                 width numeric,
+                height numeric,
                 price numeric,
                 status text ,
                 original_file_name text,
@@ -82,11 +84,55 @@ router.all("/", async (req, res) => {
             )
             `)
 
-       
 
 
-        res.status(201).json({
-            "message":"migrated successfully"
-        }) 
+
+    res.status(201).json({
+        "message": "migrated successfully"
+    })
 })
+
+router.all('/populate', async (req, res) => {
+    console.log('start popullate with data');
+    console.log('materials');
+
+    const materials = ["oil painting", "acrylic painting", "watercolour", "gouache", "egg tempera", "ink", "graphite", "mixed media", "other"];
+
+    for (let i = 0; i < materials.length; i++) {
+        try {
+            await db.pool.query('insert into materials (name) values ($1)', [materials[i]]);
+
+        } catch (err) {
+            console.log({
+                status: "Error writing to DB",
+                message: err,
+            });
+        }
+    }
+
+    //surfaces 
+    const surfaces = ["paper", "canvas", "wood", "cardboard", "fabric", "glass", "metal", "other"];
+
+    for (let i = 0; i < surfaces.length; i++) {
+        try {
+            await db.pool.query('insert into surfaces (name) values ($1)', [surfaces[i]]);
+
+        } catch (err) {
+            console.log({
+                status: "Error writing to DB",
+                message: err,
+            });
+        }
+    }
+
+    // dimensions 
+    const dimensions = [{ "name": "small", "min_area": 0, "max_area": 100 }, { "name": "medium", "min_area": 101, "max_area": 300 }, { "name": "large", "min_area": 301, "max_area": 600 }, { "name": "extra large", "min_area": 601, "max_area": 100 }]
+
+    res.status(201).json({
+        "message": "populate successfully"
+    })
+
+
+})
+
 module.exports = router;

@@ -1,64 +1,33 @@
 const express = require('express');
 const dataBase = require('../libraries/dataBase');
 const multer = require('multer');
+const {insertMaterialsiIntoDb} = require('../middlewares/db')
 
 const router = express.Router();
 
 // Configure Multer for memory storage
 const upload = multer({ storage: multer.memoryStorage() });
 
+
 router.get('/general/materials', async (req, res) => {
     const records = await dataBase.query('select * from materials');
     res.send(records.rows)
-    
+
 })
 
-router.post('/general/materials/add', async (req, res) => {
-    const { name } = req.body;
-    let errors = [];
+router.post('/general/materials/add', insertMaterialsiIntoDb,  async (req, res) => {
+        const {name} = req.body;
 
-    if (!name || name.length == 0) {
-        errors.push({
-            "field": "name",
-            "message": "name is invalid"
+        res.status(200).send({
+            status: "Success",
+            message: `The material ${name} has been added!`
         })
-    }
-
-    if (errors.length > 0) {
-        res.status(401)
-        res.send({
-            "Status": "Invalid inputs",
-            "message": errors
-        })
-    }
-    else {
-
-        const records = await dataBase.query('insert into materials (name) values ($1)', [name]).catch(err => {
-            res.status(500)
-            res.send(
-                {
-                    "Status": "rror writting to DB",
-                    "message": err.detail
-                }
-            )
-        })
-
-        if (records) {
-            res.status(200);
-            res.send(
-                {
-                    "Status": "Success",
-                    "message": `The material ${name} has been added!`
-                })
-
-        }
-    }
 
 })
 
 router.get('/general/surfaces', async (req, res) => {
     const records = await dataBase.query('select * from surfaces');
-    res.send(records.rows)  
+    res.send(records.rows)
 
 })
 
@@ -108,7 +77,7 @@ router.post('/general/surfaces/add', async (req, res) => {
 
 router.get('/general/dimensions', async (req, res) => {
     const records = await dataBase.query('select * from dimensions');
-    res.send(records.rows)  
+    res.send(records.rows)
 
 })
 

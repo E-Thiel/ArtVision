@@ -100,10 +100,15 @@ body params all mandatory:
 POST
 Authorization: Token (that its generated on login - see /auth/login). Is mandatory.
 
-Body:
+Body: (all mandatory)
 image (file)
 id_material (text)
 id_surface (text)
+title (text)
+description (text)
+width (text) 
+height (text)
+price (text)
 
 
 # /picture/getAll
