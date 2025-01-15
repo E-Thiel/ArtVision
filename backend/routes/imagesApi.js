@@ -51,7 +51,9 @@ router.post('/upload', upload.single('image'), authenticateToken, async (req, re
         return res.status(400).json(errors);
     }
     else {
-        const uploadResultCloudinary = await cloudinary.uploader.upload(myImage.path);
+        const uploadResultCloudinary = await cloudinary.uploader.upload(myImage.path , {
+            folder: 'ArtZVision',
+        });
         console.log("Succes upload in cloud");
 
         await dataBase.pool.query(`INSERT INTO public.paintings(

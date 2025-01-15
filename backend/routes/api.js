@@ -87,7 +87,7 @@ router.post('/general/surfaces/add', async (req, res) => {
             res.status(500)
             res.send(
                 {
-                    "Status": "rror writting to DB",
+                    "Status": "error writting to DB",
                     "message": err.detail
                 }
             )
