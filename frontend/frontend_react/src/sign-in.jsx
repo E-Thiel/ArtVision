@@ -9,18 +9,30 @@ const SignIn = () => {
 const emailRef = useRef();
 const passwRef = useRef();
 
-const sendLogin = async() => {
-  setFormData({userName: emailRef.current.value, password: passwRef.current.value,});
+  const sendLogin = async () => {
+    /*setFormData({userName: emailRef.current.value, password: passwRef.current.value});
 
+    const formData = {userName: emailRef.current.value, password: passwRef.current.value}
+  
+    const correctCoordinates = {
+      "userName":"roti",
+      "password": "P@ssw0rD"
+    }*/
 
-  //await sync function
-await fetch('https://artvision.onrender.com/auth/login', {
-    method: "POST",
-    body: JSON.stringify(formData)
-  }).then((response) => {
-    console.log(response);
-    return response.json();
-  })
+    await fetch('https://artvision.onrender.com/auth/login', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "userName": "roti",
+        "password": "P@ssw0rD"
+      })
+    })
+
+    .then(response => response.json())
+    /*.then(console.log(correctCoordinates))*/
+    .then(json => console.log(json));
   }
 
     return (      
