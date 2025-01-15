@@ -158,7 +158,9 @@ router.post("/register",checkEmail, checkPassword, async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const { userName, password } = req.body;
-     
+
+    console.log(req.body);
+         
     if (!userName || !password) {
         res.status(401);
         res.send({
