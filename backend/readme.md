@@ -1,6 +1,6 @@
 API
 
-/auth/register
+# /auth/register
 
 POST
 
@@ -22,7 +22,7 @@ For the password there are the following checks:
 - must contains minimum 1 symbol
 - 
 
-/auth/login
+# /auth/login
 
 POST
 
@@ -32,7 +32,7 @@ body params:
 
 If succes it generates a key that contains userName, email and id of user.
 
-/api//general/materials/add
+# /api//general/materials/add
 
 POST
 
@@ -40,7 +40,7 @@ body params:
 - name: mandatory , string
 
 
-/api//general/surfaces/add
+# /api//general/surfaces/add
 
 POST
 
@@ -48,7 +48,7 @@ body params:
 - name: mandatory , string
 
 
-/api/general/materials
+# /api/general/materials
 
 GET
 
@@ -60,7 +60,7 @@ returns an array of objects :
     }
 ]
 
-/api//general/surfaces
+# /api//general/surfaces
 
 GET
 
@@ -74,7 +74,7 @@ returns an array of objects :
 
 
 
-/api/general/dimensions
+# /api/general/dimensions
 GET
 returns an array of objects:
 [
@@ -86,7 +86,7 @@ returns an array of objects:
     }
 ]
 
-/api/general/dimensions/add
+# /api/general/dimensions/add
 POST
 body params all mandatory:
 {
@@ -96,7 +96,7 @@ body params all mandatory:
 }
 
 
-/picture/upload
+# /picture/upload
 POST
 Authorization: Token (that its generated on login - see /auth/login). Is mandatory.
 
@@ -106,7 +106,7 @@ id_material (text)
 id_surface (text)
 
 
-/picture/getAll
+# /picture/getAll
 GET
 [
     {
@@ -190,6 +190,60 @@ GET
         "uploaded_date": "2025-01-13T23:00:00.000Z"
     }
 ]
+
+
+# /picture/getByUser
+GET
+Authorization: Token (that its generated on login - see /auth/login). Is mandatory.
+
+response:
+[
+    {
+        "id": 28,
+        "id_material": 1,
+        "material_name": "Glass",
+        "id_surface": 1,
+        "surface_name": "round",
+        "title": "Title",
+        "description": "Description",
+        "length": "100",
+        "width": "200",
+        "price": "9.8",
+        "share_path": "https://res.cloudinary.com/do5lfyys6/image/upload/v1736935703/hk35otpy8pvlxsken3bv.png",
+        "id_user": 2,
+        "name": "RO-TARU",
+        "uploaded_date": "2025-01-14T23:00:00.000Z"
+    }
+]
+
+# /picture/getByIdUser
+GET
+
+Body
+{
+    "idUser": 1
+}
+
+response:
+[
+    {
+        "id": 28,
+        "id_material": 1,
+        "material_name": "Glass",
+        "id_surface": 1,
+        "surface_name": "round",
+        "title": "Title",
+        "description": "Description",
+        "length": "100",
+        "width": "200",
+        "price": "9.8",
+        "share_path": "https://res.cloudinary.com/do5lfyys6/image/upload/v1736935703/hk35otpy8pvlxsken3bv.png",
+        "id_user": 1,
+        "name": "RO-TARU",
+        "uploaded_date": "2025-01-14T23:00:00.000Z"
+    }
+]
+
 
 for me:
 
