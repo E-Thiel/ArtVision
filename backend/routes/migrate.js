@@ -84,6 +84,28 @@ router.all("/", async (req, res) => {
             )
             `)
 
+    await db.query(`DROP TABLE IF EXISTS public.reviews;
+
+            CREATE TABLE IF NOT EXISTS public.reviews
+            (
+                id SERIAL PRIMARY KEY NOT NULL, 
+                "artistId" integer,
+                "userId" integer,
+                rating numeric,
+                title text COLLATE pg_catalog."default",
+                body text COLLATE pg_catalog."default",
+                date date,
+                 CONSTRAINT fk_artist FOREIGN KEY ("artistId")
+                REFERENCES public.users (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION
+                    ON DELETE NO ACTION
+                    NOT VALID,
+                CONSTRAINT fk_user FOREIGN KEY ("userId")
+                    REFERENCES public.users (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION
+                    ON DELETE NO ACTION
+                    NOT VALID              
+            )`)
 
 
 
@@ -141,6 +163,10 @@ router.all('/populate', async (req, res) => {
             });
         }
     }
+
+    console.log('reviews');
+
+    
 
 
     res.status(201).json({
