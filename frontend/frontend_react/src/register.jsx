@@ -48,14 +48,27 @@ const sendRegistration = () => {
 
 const validateForm = () => {
     const pWord = passwRef.current.value;
+
     const numUpper = pWord.length - pWord.replace(/[A-Z]/g, '').length;  
     const numLower = pWord.replace(/[A-Z]/g, '').length;
     const hasNumber = /\d/.test(pWord);
     const hasSpecial = /[^A-Za-z0-9]/.test(pWord);
+    const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(emailRef.current.value); 
+    const phonePattern = "";
     console.log(hasSpecial);
     /*if (passwRef.current.value < 8) {
         console.log("password too short");
     }*/
+
+        if (pWord.length <= 8 || numLower < 4 || numUpper < 2 || hasNumber === false || hasSpecial === false){
+            alert("Password must be at least 9 characters long, with minimum 4 lowercase letters, minimumer 2 uppercase letters, minimum 1 number, minimum 1 special character")
+        }
+        if (emailPattern === false) {
+            alert("not a valid email address");
+        }
+        if (nameRef.current.value === '') {
+            alert("Put down your name")
+        }
 }
 
 

@@ -32,6 +32,7 @@
     padding: 12px 16px;
     width: 100%;
     border-radius: 8px;
+    margin-bottom: 24px;
 }
 
 
@@ -63,4 +64,11 @@
 
 .mandatory-field::after {
     content: " *";
+}
+
+.login-alert {
+    border: 1px solid rgb(255, 84, 84);
+    background-color: rgba(255, 84, 84, 0.139);
+    padding: 10px;
+    margin-bottom:24px; 
 }
