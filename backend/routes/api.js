@@ -10,12 +10,17 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 
 router.get('/general/materials', async (req, res) => {
+
+    console.log('/general/materials call');
+    
     const records = await dataBase.query('select * from materials');
     res.send(records.rows)
 
 })
 
 router.post('/general/materials/add', insertMaterialsiIntoDb,  async (req, res) => {
+        console.log('/general/materials/add call');
+        console.log('/general/materials/add body ', req.body);
         const {name} = req.body;
 
         res.status(200).send({
@@ -26,6 +31,9 @@ router.post('/general/materials/add', insertMaterialsiIntoDb,  async (req, res) 
 })
 
 router.get('/general/surfaces', async (req, res) => {
+
+    console.log('/general/surfaces call');
+    
     const records = await dataBase.query('select * from surfaces');
     res.send(records.rows)
 
@@ -33,6 +41,9 @@ router.get('/general/surfaces', async (req, res) => {
 
 
 router.post('/general/surfaces/add', async (req, res) => {
+    console.log('/general/surfaces/add call');
+    console.log('/general/surfaces/add body ', req.body);
+
     const { name } = req.body;
     let errors = [];
 
@@ -76,12 +87,18 @@ router.post('/general/surfaces/add', async (req, res) => {
 })
 
 router.get('/general/dimensions', async (req, res) => {
+    console.log('/general/dimensions call');
+
     const records = await dataBase.query('select * from dimensions');
     res.send(records.rows)
 
 })
 
 router.post('/general/dimensions/add', async (req, res) => {
+
+    console.log('/general/dimensions/add call');
+    console.log('/general/dimensions/add body ', req.body);
+
     const { name, min_area, max_area } = req.body;
     let errors = [];
 

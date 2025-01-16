@@ -77,8 +77,11 @@ const checkPassword = (req, res, next) => {
 
 
 router.post("/register",checkEmail, checkPassword, async (req, res) => {
+    console.log('/register call');
+    console.log('Body register', req.body)
+    
     let {user_name, name, email, phone, password , address, artist} = req.body;
-
+    
     // check mandatory fields
     let errors = [];
 
@@ -157,9 +160,12 @@ router.post("/register",checkEmail, checkPassword, async (req, res) => {
 })
 
 router.post("/login", async (req, res) => {
-    const { userName, password } = req.body;
 
-    console.log(req.body);
+    console.log('/login call');
+    console.log('login body ', req.body);
+    
+    const { userName, password } = req.body;
+ 
          
     if (!userName || !password) {
         res.status(401);

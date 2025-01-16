@@ -21,6 +21,11 @@ cloudinary.config({
 //router.use(authenticateToken);
 
 router.post('/upload', upload.single('image'), authenticateToken, async (req, res) => {
+
+    console.log('/upload call');
+    console.log('/upload body ', req.body);
+    console.log('/upload auth', req.headers["authorization"])
+
     const myImage = req.file;
     const { id_material, id_surface, title, description, width, height , price } = req.body;
 
@@ -129,6 +134,9 @@ router.post('/upload', upload.single('image'), authenticateToken, async (req, re
 
 
 router.get('/getAll', async (req, res) => {
+
+    console.log('/getAll call');
+
     try {
         const result = await dataBase.pool.query(`select 
             p.id, p.id_material, m.name material_name,
@@ -147,6 +155,11 @@ router.get('/getAll', async (req, res) => {
 });
 
 router.get('/getByUser', authenticateToken, async (req, res) => {
+
+    console.log('/getByUser call');
+    console.log('/getByUser body ', req.body);
+    console.log('/getByUser auth', req.headers["authorization"])
+
     try {
         const result = await dataBase.pool.query(`select 
             p.id, p.id_material, m.name material_name,
@@ -166,6 +179,10 @@ router.get('/getByUser', authenticateToken, async (req, res) => {
 });
 
 router.get('/getByIdUser', async (req, res) => {
+
+    console.log('/getByIdUser call');
+    console.log('/getByIdUser body ', req.body);
+    
     let errors = [];
     const { idUser } = req.body;
 
