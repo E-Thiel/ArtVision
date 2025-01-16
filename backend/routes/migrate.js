@@ -110,6 +110,7 @@ router.all('/populate', async (req, res) => {
         }
     }
 
+    console.log('surfaces');
     //surfaces 
     const surfaces = ["paper", "canvas", "wood", "cardboard", "fabric", "glass", "metal", "other"];
 
@@ -125,8 +126,22 @@ router.all('/populate', async (req, res) => {
         }
     }
 
+    console.log('dimensions');
     // dimensions 
     const dimensions = [{ "name": "small", "min_area": 0, "max_area": 100 }, { "name": "medium", "min_area": 101, "max_area": 300 }, { "name": "large", "min_area": 301, "max_area": 600 }, { "name": "extra large", "min_area": 601, "max_area": 100 }]
+
+    for (let i=0; i<dimensions.length; i++){
+        try {
+                       
+            await db.pool.query('insert into dimensions (name, min_area, max_area) values ($1, $2, $3)', [dimensions[i].name, dimensions[i].min_area, dimensions[i].max_area])
+        } catch (err) {
+            console.log({
+                status: "Error writing to DB",
+                message: err,
+            });
+        }
+    }
+
 
     res.status(201).json({
         "message": "populate successfully"

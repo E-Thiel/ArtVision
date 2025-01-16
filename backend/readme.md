@@ -250,6 +250,56 @@ response:
 ]
 
 
+# /picture/getFiltered
+
+GET
+
+Body 
+{
+    "materials": [4, 5],
+    "surfaces": [3,6],
+    "dimensions":[3, 4],
+    "prices": { "min": 0, "max": 2000}
+    
+} 
+materials , surfaces, dimensions can be empty arrays.
+
+**response :**
+[
+    {
+        "id": 2,
+        "id_material": 4,
+        "material_name": "momo",
+        "id_surface": 3,
+        "surface_name": "wood",
+        "title": "Title 2",
+        "description": "desc2",
+        "width": "500",
+        "height": "2000",
+        "price": "989",
+        "share_path": "https://res.cloudinary.com/do5lfyys6/image/upload/v1737025861/ArtZVision/qftino87g0j5nxgi9rw3.png",
+        "id_user": 2,
+        "name": "USER",
+        "uploaded_date": "2025-01-15T23:00:00.000Z"
+    },
+    {
+        "id": 3,
+        "id_material": 5,
+        "material_name": "oil painting",
+        "id_surface": 3,
+        "surface_name": "wood",
+        "title": "Title 3",
+        "description": "desc3",
+        "width": "150",
+        "height": "890",
+        "price": "170",
+        "share_path": "https://res.cloudinary.com/do5lfyys6/image/upload/v1737025893/ArtZVision/vgiestoz2zfls2xeaqzc.png",
+        "id_user": 2,
+        "name": "USER",
+        "uploaded_date": "2025-01-15T23:00:00.000Z"
+    }
+]
+
 for me:
 
 

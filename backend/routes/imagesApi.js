@@ -141,7 +141,7 @@ router.get('/getAll', async (req, res) => {
         const result = await dataBase.pool.query(`select 
             p.id, p.id_material, m.name material_name,
             p.id_surface, s.name as surface_name,
-            p.title, p.description, p.length, p.width, p.price, p.share_path,
+            p.title, p.description, p.width, p.height, p.price, p.share_path,
             p.id_user, u.name, p.uploaded_date
             from  paintings as  p
             join materials as m on p.id_material = m.id
@@ -164,7 +164,7 @@ router.get('/getByUser', authenticateToken, async (req, res) => {
         const result = await dataBase.pool.query(`select 
             p.id, p.id_material, m.name material_name,
             p.id_surface, s.name as surface_name,
-            p.title, p.description, p.length, p.width, p.price, p.share_path,
+            p.title, p.description,p.width, p.height, p.price, p.share_path,
             p.id_user, u.name, p.uploaded_date
             from  paintings as  p
             join materials as m on p.id_material = m.id
@@ -182,7 +182,7 @@ router.get('/getByIdUser', async (req, res) => {
 
     console.log('/getByIdUser call');
     console.log('/getByIdUser body ', req.body);
-    
+
     let errors = [];
     const { idUser } = req.body;
 
@@ -202,7 +202,7 @@ router.get('/getByIdUser', async (req, res) => {
             const result = await dataBase.pool.query(`select 
             p.id, p.id_material, m.name material_name,
             p.id_surface, s.name as surface_name,
-            p.title, p.description, p.length, p.width, p.price, p.share_path,
+            p.title, p.description, p.width, p.height, p.price, p.share_path,
             p.id_user, u.name, p.uploaded_date
             from  paintings as  p
             join materials as m on p.id_material = m.id
@@ -216,5 +216,38 @@ router.get('/getByIdUser', async (req, res) => {
         }
     }
 });
+
+router.get('/getFiltered', async (req, res) => {
+    console.log('/getFiltered call');
+    console.log('/getFiltered body ', req.body);
+
+    const {materials, surfaces, dimensions, prices} = req.body;   
+      
+
+     try {
+        
+        const result = await dataBase.pool.query(`select 
+        p.id, p.id_material, m.name material_name,
+        p.id_surface, s.name as surface_name,
+        p.title, p.description, p.width, p.height, p.price, p.share_path,
+        p.id_user, u.name, p.uploaded_date
+        from  paintings as  p
+        join materials as m on p.id_material = m.id
+        join surfaces as s on p.id_surface = s.id
+        join users as u on p.id_user = u.id
+        where ($1::int[] IS NULL OR $1 = '{}' or p.id_material = ANY($1))
+        and ($2::int[] IS NULL OR $2 = '{}' or p.id_surface = ANY($2))        
+        and p.price between $3 and $4
+        and ($5::int[] IS NULL OR $5 = '{}' or (select d.id from dimensions d where p.width * p.height between d.min_area and d.max_area)  = ANY($5))
+        ` , [materials,surfaces, prices.min, prices.max, dimensions]
+        
+    );
+        res.status(200).json(result.rows);
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).json({ error: 'Failed to fetch images', err: err });
+    } 
+
+})
 
 module.exports = router;

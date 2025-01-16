@@ -179,14 +179,22 @@ router.post("/login", async (req, res) => {
         
         if(records.rowCount ===0 ){
             res.status(401)
-            res.send(`Login failed! Invalid user Name!`);
+            res.send({
+              "Status": "Invalid username/password",
+              "Message": "Login failed! Invalid user Name!"
+          })
+           
         }
         else{
             const passwordOk = await bcrypt.compare(password, records.rows[0].password);
             
             if (!passwordOk) {
                 res.status(401)
-                res.send(`Login failed! Invalid password!`);
+                res.send({
+                  "Status": "Invalid username/password",
+                  "Message": "Login failed! Invalid password!"
+              })
+                
             }
             else {
                 const token = jwt.sign(
