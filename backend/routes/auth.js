@@ -78,8 +78,6 @@ const checkPassword = (req, res, next) => {
 
 
 router.post("/register",checkEmail, checkPassword, async (req, res) => {
-    console.log('/register call');
-    console.log('Body register', req.body)
     
     let {user_name, name, email, phone, password , address, artist} = req.body;
     
@@ -161,10 +159,7 @@ router.post("/register",checkEmail, checkPassword, async (req, res) => {
 })
 
 router.post("/login",  async (req, res) => {
-
-    console.log('/login call');
-    console.log('login body ', req.body);
-    
+     
     const { userName, password } = req.body;
  
          

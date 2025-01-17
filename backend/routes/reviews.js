@@ -6,11 +6,6 @@ const router = express.Router();
 
 router.post('/add', authenticateToken,  async (req, res) => {
 
-    console.log('/review/add call');
-    console.log(req.body);
-    console.log(req.id_user);
-    
-
     const {artistId, rating , title, body} = req.body;
     let errors = [];
 
@@ -76,9 +71,6 @@ router.post('/add', authenticateToken,  async (req, res) => {
 
 
 router.get('/getByArtist', async (req, res) => {
-    console.log('/review/getByArtist call');
-    console.log(req.body);
-
     const {artistId} = req.body;
     let errors = [];
 
