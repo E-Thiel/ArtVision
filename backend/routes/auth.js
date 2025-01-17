@@ -3,6 +3,7 @@ const dataBase = require('../libraries/dataBase');
 const validator = require('validator');
 const bcrypt = require("bcryptjs");
 const jwt =  require("jsonwebtoken");
+const insertLogs = require('../middlewares/logs')
 
 
 const router = express.Router();
@@ -159,7 +160,7 @@ router.post("/register",checkEmail, checkPassword, async (req, res) => {
     }
 })
 
-router.post("/login", async (req, res) => {
+router.post("/login",  async (req, res) => {
 
     console.log('/login call');
     console.log('login body ', req.body);

@@ -6,6 +6,8 @@ const picturesRoute = require('./routes/imagesApi.js')
 const reviewsRoute = require('./routes/reviews.js')
 const cors = require('cors');
 
+const insertLogs = require('./middlewares/logs.js')
+
 require('dotenv').config();
 
 
@@ -15,6 +17,7 @@ const port = process.env.PORT;
 // Middleware to parse JSON bodies
 app.use(cors());
 app.use(express.json());
+app.use(insertLogs)
 
 // Use routes
 app.use('/api',  apiRoute);

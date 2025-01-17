@@ -40,9 +40,9 @@ router.all("/", async (req, res) => {
                 );
         `)
 
-    await db.query(`DROP TABLE IF EXISTS public.dimensions;
+    await db.query(`DROP TABLE IF EXISTS dimensions;
 
-            CREATE TABLE IF NOT EXISTS public.dimensions
+            CREATE TABLE IF NOT EXISTS dimensions
             (
                 id SERIAL PRIMARY KEY ,
                 name text ,
@@ -52,9 +52,9 @@ router.all("/", async (req, res) => {
         `)
 
     await db.query(`
-            DROP TABLE IF EXISTS public.paintings;
+            DROP TABLE IF EXISTS paintings;
 
-            CREATE TABLE IF NOT EXISTS public.paintings
+            CREATE TABLE IF NOT EXISTS paintings
             (
                 id SERIAL PRIMARY KEY NOT NULL, 
                 id_user integer,
@@ -70,42 +70,53 @@ router.all("/", async (req, res) => {
                 share_path text ,
                 uploaded_date date,                
                 CONSTRAINT fk_material FOREIGN KEY (id_material)
-                    REFERENCES public.materials (id) MATCH SIMPLE
+                    REFERENCES materials (id) MATCH SIMPLE
                     ON UPDATE NO ACTION
                     ON DELETE NO ACTION,
                 CONSTRAINT fk_surface FOREIGN KEY (id_surface)
-                    REFERENCES public.surfaces (id) MATCH SIMPLE
+                    REFERENCES surfaces (id) MATCH SIMPLE
                     ON UPDATE NO ACTION
                     ON DELETE NO ACTION,
                 CONSTRAINT fk_user FOREIGN KEY (id_user)
-                    REFERENCES public.users (id) MATCH SIMPLE
+                    REFERENCES users (id) MATCH SIMPLE
                     ON UPDATE NO ACTION
                     ON DELETE NO ACTION
             )
             `)
 
-    await db.query(`DROP TABLE IF EXISTS public.reviews;
+    await db.query(`DROP TABLE IF EXISTS reviews;
 
-            CREATE TABLE IF NOT EXISTS public.reviews
+            CREATE TABLE IF NOT EXISTS reviews
             (
                 id SERIAL PRIMARY KEY NOT NULL, 
                 "artistId" integer,
                 "userId" integer,
                 rating numeric,
-                title text COLLATE pg_catalog."default",
-                body text COLLATE pg_catalog."default",
+                title text ,
+                body text ,
                 date date,
                  CONSTRAINT fk_artist FOREIGN KEY ("artistId")
-                REFERENCES public.users (id) MATCH SIMPLE
+                REFERENCES users (id) MATCH SIMPLE
                     ON UPDATE NO ACTION
                     ON DELETE NO ACTION
                     NOT VALID,
                 CONSTRAINT fk_user FOREIGN KEY ("userId")
-                    REFERENCES public.users (id) MATCH SIMPLE
+                    REFERENCES users (id) MATCH SIMPLE
                     ON UPDATE NO ACTION
                     ON DELETE NO ACTION
                     NOT VALID              
             )`)
+
+    await db.query(`DROP TABLE IF EXISTS logs;
+
+            CREATE TABLE IF NOT EXISTS logs
+            (
+                id SERIAL PRIMARY KEY NOT NULL, 
+                date date,
+                route text ,
+                log text 
+               
+    )`)
 
 
 

@@ -31,4 +31,13 @@ const insertMaterialsiIntoDb = async (req, res, next) => {
 
 }
 
-module.exports = {insertMaterialsiIntoDb}
+const insertLogIntoDb = async (log) => {    
+    
+    try {
+        await dataBase.pool.query('insert into logs (date, route, log) values ($1, $2, $3)', [log['Time:'], log['EndPoint:'], log]);
+    } catch (error) {
+        console.log('Error inserting log', error);
+    }
+}
+
+module.exports = {insertMaterialsiIntoDb, insertLogIntoDb}

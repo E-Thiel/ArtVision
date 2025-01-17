@@ -19,8 +19,6 @@ router.get('/general/materials', async (req, res) => {
 })
 
 router.post('/general/materials/add', insertMaterialsiIntoDb,  async (req, res) => {
-        console.log('/general/materials/add call');
-        console.log('/general/materials/add body ', req.body);
         const {name} = req.body;
 
         res.status(200).send({

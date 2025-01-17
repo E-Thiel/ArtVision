@@ -1,10 +1,9 @@
 API
 
 # /auth/register
+## POST
 
-POST
-
-body params :
+**body** 
 
 - user_name: mandatory, string
 - email: mandatory, string, is checking if is an email format
@@ -23,36 +22,33 @@ For the password there are the following checks:
 - 
 
 # /auth/login
+## POST
 
-POST
-
-body params:
+**body** :
 - userName: mandatory , string
 - password: mandatory , string
 
 If succes it generates a key that contains userName, email and id of user.
 
 # /api//general/materials/add
+## POST
 
-POST
-
-body params:
+**body** :
 - name: mandatory , string
 
 
 # /api//general/surfaces/add
+## POST
 
-POST
-
-body params:
+**body** 
 - name: mandatory , string
 
 
 # /api/general/materials
+## GET
 
-GET
+**response** 
 
-returns an array of objects :
 [
     {
         "id": 1,
@@ -62,9 +58,10 @@ returns an array of objects :
 
 # /api//general/surfaces
 
-GET
+## GET
 
-returns an array of objects :
+**response** 
+
 [
     {
         "id": 1,
@@ -75,8 +72,9 @@ returns an array of objects :
 
 
 # /api/general/dimensions
-GET
-returns an array of objects:
+## GET
+
+**response** 
 [
     {
         "id": "3",
@@ -87,8 +85,9 @@ returns an array of objects:
 ]
 
 # /api/general/dimensions/add
-POST
-body params all mandatory:
+## POST
+**body**
+ params all mandatory:
 {
     "name": "small",
     "min_area": "0",
@@ -97,10 +96,14 @@ body params all mandatory:
 
 
 # /picture/upload
-POST
-Authorization: Token (that its generated on login - see /auth/login). Is mandatory.
+## POST
 
-Body: (all mandatory)
+**Authorization**
+ Token (that its generated on login - see /auth/login). Is mandatory.
+
+**Body**
+
+(all mandatory)
 image (file)
 id_material (text)
 id_surface (text)
@@ -112,7 +115,10 @@ price (text)
 
 
 # /picture/getAll
-GET
+## GET
+
+**response**
+
 [
     {
         "id": 12,
@@ -198,10 +204,12 @@ GET
 
 
 # /picture/getByUser
-GET
-Authorization: Token (that its generated on login - see /auth/login). Is mandatory.
+## GET
 
-response:
+**Authorization**
+Token (that its generated on login - see /auth/login). Is mandatory.
+
+**response**
 [
     {
         "id": 28,
@@ -222,14 +230,14 @@ response:
 ]
 
 # /picture/getByIdUser
-GET
+## GET
 
-Body
+**Body**
 {
     "idUser": 1
 }
 
-response:
+**response**
 [
     {
         "id": 28,
@@ -251,10 +259,9 @@ response:
 
 
 # /picture/getFiltered
+## GET
 
-GET
-
-Body 
+**Body** 
 {
     "materials": [4, 5],
     "surfaces": [3,6],
@@ -300,6 +307,55 @@ materials , surfaces, dimensions can be empty arrays.
     }
 ]
 
+
+# /review/add
+## POST 
+
+**body**
+artistId: text , mandatory
+rating: text , mandatory
+title: text , mandatory
+body: text , mandatory
+
+**Authorization**\
+token genererated on login 
+
+**response** 
+{
+    "Status": "Success",
+    "message": "The reviews  has been added!"
+}
+
+# /revies/getByArtist
+## GET 
+**body** 
+{
+    "artistId": 1
+}
+
+**response**
+[
+    {
+        "id": "1",
+        "id_artist": 1,
+        "id_user": 1,
+        "rating": "3",
+        "title": "Amazing product!",
+        "body": "The quality exceeded my expectations. Highly recommend!",
+        "date": "2025-01-15T23:00:00.000Z"
+    },
+    {
+        "id": "2",
+        "id_artist": 1,
+        "id_user": 1,
+        "rating": "5",
+        "title": "What a talent!",
+        "body": "I never seen somethinmg like that",
+        "date": "2025-01-15T23:00:00.000Z"
+    }
+]
+
+
 for me:
 
 
@@ -309,3 +365,6 @@ ip route show | grep -i default | awk '{ print $3}'
 
 pg_hba.conf
 host  all  all 0.0.0.0/0 md5
+
+git rm --cached .env
+git rm -r --cached node_modules
