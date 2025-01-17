@@ -3,10 +3,9 @@
 import { useRef, useState, useEffect } from "react";
 import "./registersignin.css";
 
-
+const LSKEY = "ArtVision";
 
 const SignIn = () => {
-
   //Basic setup for HTML error message
   const [errorMess, setErrorMess] = useState({
     status: false,
@@ -45,7 +44,7 @@ const SignIn = () => {
       .then((result) => {
         if (result.Status === "Success") {
           alert("Logged in");
-            window.localStorage.setItem("key", JSON.stringify(result.key));
+          localStorage.setItem(LSKEY + ".key", JSON.stringify(result.key));
         } else if (
           //Updates the HTML error message status and makes it visible
           result.Status === "Invalid username/password" ||
@@ -53,8 +52,8 @@ const SignIn = () => {
         ) {
           setErrorMess({ status: true, message: result.Message });
         }
-      })
-      /*.then((json) => console.log(json));*/
+      });
+    /*.then((json) => console.log(json));*/
   };
 
   return (

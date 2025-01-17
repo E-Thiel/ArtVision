@@ -72,3 +72,23 @@
     padding: 10px;
     margin-bottom:24px; 
 }
+
+.artist-check-container {
+    display:flex;
+    margin-bottom: 24px;
+}
+
+#access-form .artist-check-container input {
+    display:inline-block;
+    width: 16px;
+    margin-bottom: 9px;
+    margin-left:16px;
+}
+
+.register-incorrect {
+    color: rgb(255, 84, 84);
+}
+
+.register-correct {
+    color: rgb(0, 128, 79);
+}
