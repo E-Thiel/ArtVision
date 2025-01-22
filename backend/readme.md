@@ -45,7 +45,7 @@ If succes it generates a key that contains userName, email and id of user.
 
 
 # /api/general/materials
-## GET
+## POST
 
 **response** 
 
@@ -58,7 +58,7 @@ If succes it generates a key that contains userName, email and id of user.
 
 # /api//general/surfaces
 
-## GET
+## POST
 
 **response** 
 
@@ -72,7 +72,7 @@ If succes it generates a key that contains userName, email and id of user.
 
 
 # /api/general/dimensions
-## GET
+## POST
 
 **response** 
 [
@@ -115,7 +115,7 @@ price (text)
 
 
 # /picture/getAll
-## GET
+## POST
 
 **response**
 
@@ -204,7 +204,7 @@ price (text)
 
 
 # /picture/getByUser
-## GET
+## POST
 
 **Authorization**
 Token (that its generated on login - see /auth/login). Is mandatory.
@@ -230,7 +230,7 @@ Token (that its generated on login - see /auth/login). Is mandatory.
 ]
 
 # /picture/getByIdUser
-## GET
+## POST
 
 **Body**
 {
@@ -259,7 +259,7 @@ Token (that its generated on login - see /auth/login). Is mandatory.
 
 
 # /picture/getFiltered
-## GET
+## POST
 
 **Body** 
 {
@@ -326,8 +326,8 @@ token genererated on login
     "message": "The reviews  has been added!"
 }
 
-# /revies/getByArtist
-## GET 
+# /review/getByArtist
+## POST 
 **body** 
 {
     "artistId": 1
@@ -355,6 +355,100 @@ token genererated on login
     }
 ]
 
+# /cart/add
+## POST
+
+**body**
+{
+    "id_painting": 2,
+    "price": 2.4
+}
+
+**Authorization**
+ Token (that its generated on login - see /auth/login). Is mandatory.
+
+**response**
+{
+    "Status": "Success",
+    "message": "The painting  has been added!"
+}
+
+# /cart/view
+## POST
+
+**Authorization**
+ Token (that its generated on login - see /auth/login). Is mandatory.
+
+**response**
+[
+    {
+        "id": 4,
+        "id_user": 1,
+        "id_painting": 2,
+        "price": "2.4",
+        "date": "2025-01-16T23:00:00.000Z",
+        "title": "Title 2",
+        "description": "desc2",
+        "width": "500",
+        "height": "2000",
+        "material": "momo",
+        "surface": "wood",
+        "id_artist": 2,
+        "artist": "USER"
+    },
+    {
+        "id": 5,
+        "id_user": 1,
+        "id_painting": 2,
+        "price": "2.4",
+        "date": "2025-01-16T23:00:00.000Z",
+        "title": "Title 2",
+        "description": "desc2",
+        "width": "500",
+        "height": "2000",
+        "material": "momo",
+        "surface": "wood",
+        "id_artist": 2,
+        "artist": "USER"
+    }
+]
+
+
+# /cart/sendToPay
+## POST
+
+**Authorization**
+ Token (that its generated on login - see /auth/login). Is mandatory.
+
+ **body**
+ {
+    "cart_paintings": [
+        {"id": 1, "price":2.5},
+        {"id": 2, "price":3232}
+    ]
+}
+
+**response**
+{
+    "Status": "Success",
+    "message": "The order is send!"
+}
+{
+    "Status": "Error",
+    "message": {
+        "length": 246,
+        "name": "error",
+        "severity": "ERROR",
+        "code": "23503",
+        "detail": "Key (id_cart)=(991) is not present in table \"cart_products\".",
+        "schema": "public",
+        "table": "order_details",
+        "constraint": "fk_cart",
+        "file": "ri_triggers.c",
+        "line": "2641",
+        "routine": "ri_ReportViolation"
+    }
+}
 
 for me:
 
