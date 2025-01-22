@@ -1,20 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useContext, createContext } from "react";
 import "./Home.css";
 import Filters from "./components/Filters";
 import Product from "./components/Product.jsx";
+import HeroSection from "./components/HeroSection.jsx";
+
+const FilterContext = createContext();
+
+export const useFilters = () => useContext(FilterContext);
 
 function Home() {
-    const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="home-page">
-      <div className="filters-section">
-        <Filters onFilterChange={setFilters} />
+    <FilterContext.Provider value={{ filters, setFilters, searchQuery, setSearchQuery }}>
+      <HeroSection />
+      <div className="home-page">
+        <div className="filters-section">
+          <Filters />
+        </div>
+        <div className="products-section">
+          <Product />
+        </div>
       </div>
-      <div className="products-section">
-        <Product filters={filters} />
-      </div>
-    </div>
+    </FilterContext.Provider>
   );
 }
 

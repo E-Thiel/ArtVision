@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 import "./Header.css";
 
 function Header() {
@@ -26,7 +27,7 @@ function Header() {
 
           {/*---------------Links---------------*/}
           <ul className="nav-links">
-            <li className="nav-link"><img src="/svg/header/Home.svg" alt="home" />Home</li> 
+            <li className="nav-link"><img src="/svg/header/Home.svg" alt="home" />Home</li>
             <li className="nav-link">
               <img src="/svg/header/About.svg" alt="about" />About
             </li>
@@ -35,7 +36,7 @@ function Header() {
             </li>
           </ul>
         </div>
-        
+
         {/*---------------Other Links---------------*/}
 
         <div className="header-actions">
@@ -47,18 +48,20 @@ function Header() {
             </div>
           ) : (
             <div className="not-login-actions">
-              <a href="#" className="cart-icon"><img src="/svg/header/Shopping Cart.svg" alt="home" /></a>
+                <Link to="/cart" className="cart-icon">
+                    <img src="/svg/header/Shopping Cart.svg" alt="cart" />
+                </Link>
               <button onClick={handleLogin} className="login-btn" >Sign In</button>
               <button onClick={handleLogin} className="reg-btn">Register</button>
             </div>
           )}
         </div>
       </div>
-      
+
     </header>
   );
 }
 
 
-  
+
   export default Header;
