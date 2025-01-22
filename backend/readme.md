@@ -30,14 +30,14 @@ For the password there are the following checks:
 
 If succes it generates a key that contains userName, email and id of user.
 
-# /api//general/materials/add
+# /api/general/materials/add
 ## POST
 
 **body** :
 - name: mandatory , string
 
 
-# /api//general/surfaces/add
+# /api/general/surfaces/add
 ## POST
 
 **body** 
@@ -56,7 +56,7 @@ If succes it generates a key that contains userName, email and id of user.
     }
 ]
 
-# /api//general/surfaces
+# /api/general/surfaces
 
 ## POST
 
