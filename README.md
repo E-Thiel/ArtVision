@@ -1,8 +1,12 @@
-# React + Vite
+### Component Overview
+- **Cart.jsx**: Manages cart state and interactions.
+- **Filters.jsx**: Implements dynamic product filtering and sorting logic.
+- **Header.jsx**: This is a temporary file for tests.
+- **Product.jsx**: Displays individual product data, including images and details.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Page Structure
+- **Home.jsx**: Central hub for displaying product lists and applying filters.
+- **ProductDetail.jsx**: Provides detailed information about a specific product
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Utilities
+- **fetch.js**: Contains functions for API interactions, ensuring consistency across requests.

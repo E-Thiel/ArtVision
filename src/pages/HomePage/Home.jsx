@@ -1,8 +1,8 @@
 import React, { useState, useContext, createContext } from "react";
 import "./Home.css";
-import Filters from "./components/Filters";
-import Product from "./components/Product.jsx";
-import HeroSection from "./components/HeroSection.jsx";
+import Filters from "./components/Filters/Filters.jsx";
+import Product from "./components/Products/Product.jsx";
+import HeroSection from "./components/HeroSection/HeroSection.jsx";
 
 const FilterContext = createContext();
 

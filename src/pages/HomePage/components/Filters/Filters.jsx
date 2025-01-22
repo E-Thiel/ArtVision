@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useFilters } from "../Home";
+import { useFilters } from "../../Home.jsx";
 import {
   getMaterials,
   getSurfaces,
   getDimensions
-} from "../api/fetch";
+} from "../../../../api/fetch.js";
 import "./Filters.css";
 
 function Filters() {

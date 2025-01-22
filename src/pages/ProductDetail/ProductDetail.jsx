@@ -5,7 +5,7 @@ import {
   getMaterials,
   getSurfaces,
   getByArtist,
-} from "../api/fetch";
+} from "../../api/fetch.js";
 import "./ProductDetail.css";
 
 function ProductDetail() {

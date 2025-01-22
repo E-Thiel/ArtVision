@@ -42,14 +42,14 @@ function Header() {
         <div className="header-actions">
           {isAuthenticated ? (
             <div className="login-actions">
-              <a href="#" className="cart-icon"><img src="/svg/header/Shopping Cart.svg" alt="home" /></a>
+              <a href="#" className="cart-icon"><img src="/svg/header/Shopping%20Cart.svg" alt="home" /></a>
               <a href="#" className="menu-icon">☰</a>
               <span onClick={handleLogout} className="profile-icon">⚪</span>
             </div>
           ) : (
             <div className="not-login-actions">
                 <Link to="/cart" className="cart-icon">
-                    <img src="/svg/header/Shopping Cart.svg" alt="cart" />
+                    <img src="/svg/header/Shopping%20Cart.svg" alt="cart" />
                 </Link>
               <button onClick={handleLogin} className="login-btn" >Sign In</button>
               <button onClick={handleLogin} className="reg-btn">Register</button>

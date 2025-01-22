@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { viewCartServer, getAll } from "../api/fetch";
+import { viewCartServer, getAll } from "../../api/fetch.js";
 import "./Cart.css";
 
 function Cart() {

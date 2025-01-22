@@ -101,14 +101,7 @@ export const getFilteredItems = async (filters) => {
     return await response.json();
 };
 
-
-// ========================================================
-//  AUTH
-// ========================================================
-
 export const registerUser = async (userData) => {
-    // userData содержит поля: user_name, email, password, name, phone, address, artist
-    // (см. документацию)
     const response = await fetch(`${URL}/auth/register`, {
         method: "POST",
         headers: {
@@ -121,7 +114,7 @@ export const registerUser = async (userData) => {
         const errorText = await response.text();
         throw new Error(`Register failed: ${errorText}`);
     }
-    return await response.json(); // предположим, что в успешном ответе приходит {Status: 'Success', ...}
+    return await response.json();
 };
 
 export const loginUser = async (userName, password) => {
@@ -137,16 +130,10 @@ export const loginUser = async (userName, password) => {
         const errorText = await response.text();
         throw new Error(`Login failed: ${errorText}`);
     }
-    // Ожидаем, что в случае успеха приходит объект с ключом (токеном) и данными пользователя
-    // Например: { key: "...jwt...", userName: "john", email: "...", id: 123 }
     return await response.json();
 };
 
-// ========================================================
-//  CART
-// ========================================================
 
-// Добавить товар в корзину (уже авторизованный пользователь)
 export const addToCartServer = async (id_painting, price) => {
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -157,14 +144,12 @@ export const addToCartServer = async (id_painting, price) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            // ВАЖНО: используем Bearer + token
             'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ id_painting, price }),
     });
 
     if (!response.ok) {
-        // Можно посмотреть текст ошибки, чтобы понять, что именно не так:
         const errorMsg = await response.text();
         throw new Error(`Failed to add item to cart: ${response.status} ${errorMsg}`);
     }
@@ -172,7 +157,7 @@ export const addToCartServer = async (id_painting, price) => {
     return await response.json();
 };
 
-// Получить товары из корзины (уже авторизованный пользователь)
+
 export const viewCartServer = async () => {
     const token = localStorage.getItem("authToken");
     if (!token) {

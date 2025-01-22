@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useFilters } from "../Home";
-import { getAll, getFilteredItems } from "../api/fetch";
-import { addToCartServer } from "../api/fetch";
+import { useFilters } from "../../Home.jsx";
+import { getAll, getFilteredItems, addToCartServer } from "../../../../api/fetch.js";
 import { useNavigate } from "react-router-dom";
 import "./Product.css";
 
