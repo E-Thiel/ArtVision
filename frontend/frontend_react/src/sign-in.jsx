@@ -1,5 +1,3 @@
-/** @format */
-
 import { useRef, useState, useEffect } from "react";
 import "./registersignin.css";
 
@@ -33,7 +31,7 @@ const SignIn = () => {
       password: passwRef.current.value,
     };
 
-    await fetch("https://artvision.onrender.com/auth/login", {
+    fetch("https://art-vision-e0c9a8f9d1d5.herokuapp.com/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,9 +40,15 @@ const SignIn = () => {
     })
       .then((response) => response.json())
       .then((result) => {
+        console.log(result.Status);
         if (result.Status === "Success") {
           alert("Logged in");
-          localStorage.setItem(LSKEY + ".key", JSON.stringify(result.key));
+          //localStorage.setItem(LSKEY + ".key", JSON.stringify(result.key));
+          document.cookie = `tokenKey=${JSON.stringify(
+            result.key
+          )}; expires=${new Date(Date.now() + 120 * 1000).toUTCString()}`;
+          //insert homepage link here :
+          window.location.href = "/home";
         } else if (
           //Updates the HTML error message status and makes it visible
           result.Status === "Invalid username/password" ||
@@ -53,7 +57,6 @@ const SignIn = () => {
           setErrorMess({ status: true, message: result.Message });
         }
       });
-    /*.then((json) => console.log(json));*/
   };
 
   return (

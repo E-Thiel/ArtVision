@@ -1,10 +1,8 @@
-/** @format */
-
 import { useRef, useState } from "react";
 import "./registersignin.css";
 
 const Register = () => {
-    //getting values from the form
+  //getting values from the form
   const userRef = useRef();
   const emailRef = useRef();
   const passwRef = useRef();
@@ -13,19 +11,7 @@ const Register = () => {
   const addressRef = useRef();
   const artistRef = useRef();
 
-  //array for database
-  const [formData, setFormData] = useState({
-    user_name: "",
-    email: "",
-    password: "",
-    name: "",
-    phone: "",
-    address: "",
-    artist: "",
-  });
-
-
-//returns if the 'are you an artist?' has been "checked", for database legibility
+  //returns if the 'are you an artist?' has been "checked", for database legibility
   const checkIfArtist = () => {
     if (artistRef.current.checked === true) {
       return "1";
@@ -34,9 +20,9 @@ const Register = () => {
     }
   };
 
-//sets up data to be sent to the database after validation
+  //sets up data to be sent to the database after validation
   const sendRegistration = () => {
-    setFormData({
+    const formData = {
       user_name: userRef.current.value,
       email: emailRef.current.value,
       password: passwRef.current.value,
@@ -44,11 +30,69 @@ const Register = () => {
       phone: phoneRef.current.value,
       address: addressRef.current.value,
       artist: checkIfArtist(),
-    });
+    };
+
+    fetch("https://art-vision-e0c9a8f9d1d5.herokuapp.com/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result.Status);
+          if (result.Status === "Success") {
+            console.log("It's a success!")
+          } else (
+            console.log("It failed :-(")
+          )
+        });
+    console.log(formData);
   };
 
-  //set up general form validation
-  const [formValidation, setFormValidation] = useState(null);
+  //checks if username is valid
+
+  const verifyUsername = () => {
+    if (userRef.current.value === "") {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  //checks if email is valid
+
+  const verifyEmail = () => {
+    if (
+      /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(emailRef.current.value) === false
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  //checks if name is valid
+
+  const verifyName = () => {
+    if (nameRef.current.value === "") {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  //pasword validation to be inclduded in general form. Counts the number of requirements fulfilled, and if it is five it returns true
+
+  const passwordValidation = (updatedPassError) => {
+    const pwCount = Object.values(updatedPassError).filter(Boolean).length;
+    if (pwCount === 5) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   //sets up password error messages in form HTML. False is when the requirement is not fulfilled
   const [passError, setPassError] = useState({
@@ -59,53 +103,61 @@ const Register = () => {
     specChar: false,
   });
 
-  //password validation function
-const verifyPassword = () => {
-    const passCopy = passError;
+  //password validation function for password details (length greater than 8, at least 4 lowercase, at least 2 uppercase, has a number, has a special character)
+  const verifyPassword = () => {
     const pWord = passwRef.current.value;
     const numUpper = pWord.length - pWord.replace(/[A-Z]/g, "").length;
     const numLower = pWord.replace(/[A-Z]/g, "").length;
     const hasNumber = /\d/.test(pWord);
     const hasSpecial = /[^A-Za-z0-9]/.test(pWord);
 
-    //checks it more than 8 characters
-    if (pWord.length <= 8) {
-        passCopy.characters = false;
-    } else { passCopy.characters = true; }
-    //checks if there are at least four lowercase characters
-    if (numLower < 4) {
-        passCopy.lowerCase = false
-    } else { passCopy.lowerCase = true; }
-    //checks if there are at lest two uppercase characters
-    if (numUpper < 2) {
-        passCopy.upperCase = false
-    } else { passCopy.upperCase = true; }
-    //checks if there is a number
-    if (hasNumber === false) {
-        passCopy.number = false
-    } else { passCopy.number = true; }
-    //checks if there is a special character
-    if (hasSpecial === false) {
-        passCopy.specChar = false
-    } else {passCopy.specChar = true}
+    const updatedPassError = {
+      characters: pWord.length > 8,
+      lowerCase: numLower >= 4,
+      upperCase: numUpper >= 2,
+      number: hasNumber,
+      specChar: hasSpecial,
+    };
 
-    setPassError(passCopy);
-    console.log(passCopy);
-}
+    setPassError(updatedPassError);
+    return passwordValidation(updatedPassError);
+    //console.log(updatedPassError);
+  };
+
+  //set up general form validation
+  const [formValidation, setFormValidation] = useState({
+    user_name: null,
+    email: null,
+    password: null,
+    name: null,
+  });
+
   //validates the form inputs
   const validateForm = () => {
+    const validForm = {
+      user_name: verifyUsername(),
+      email: verifyEmail(),
+      password: verifyPassword(),
+      name: verifyName(),
+    };
 
-    const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(
-      emailRef.current.value
-    );
-    const phonePattern = "";
+    setFormValidation(validForm);
     
-    if (emailPattern === false) {
-      alert("not a valid email address");
+    const validCount = Object.values(validForm).filter(Boolean).length;
+    console.log(validCount);
+    if (validCount === 4){
+        console.log("Success, count is " + validCount)
+        sendRegistration();
+    } else {
+        console.log("Failure, count is " + validCount)
     }
-    if (nameRef.current.value === "") {
-      alert("Put down your name");
-    }
+
+  };
+
+  //form validation for both password and general details
+  const validateFormAndPw = () => {
+    validateForm();
+    //verifyPassword();
   };
 
   return (
@@ -113,36 +165,132 @@ const verifyPassword = () => {
       id="access-form"
       onSubmit={(e) => {
         e.preventDefault();
-        e.verifyPassword();
-        //sendRegistration();
-        //validateForm();
+        validateFormAndPw();
       }}
     >
       <h2>Create your account</h2>
 
-      <label htmlFor="username" className="mandatory-field">
+      <label
+        htmlFor="username"
+        className={
+          formValidation.user_name === false
+            ? "mandatory-alert mandatory-field"
+            : "mandatory-field"
+        }
+      >
         Username
       </label>
-      <input type="text" id="username" ref={userRef} />
-
-      <label htmlFor="email" className="mandatory-field">
+      <input
+        type="text"
+        id="username"
+        ref={userRef}
+        className={formValidation.user_name === false ? "mandatory-alert" : ""}
+      />
+      {formValidation.user_name === false && (
+        <span class="mandatory-alert">Enter a username</span>
+      )}
+      <label
+        htmlFor="email"
+        className={
+          formValidation.email === false
+            ? "mandatory-alert mandatory-field"
+            : "mandatory-field"
+        }
+      >
         Email
       </label>
-      <input type="email" id="email" ref={emailRef} />
+      <input
+        type="email"
+        id="email"
+        ref={emailRef}
+        className={formValidation.email === false ? "mandatory-alert" : ""}
+      />
+      {formValidation.email === false && (
+        <span class="mandatory-alert">Enter an email address</span>
+      )}
 
-      <label htmlFor="name" className="mandatory-field">
+      <label
+        htmlFor="name"
+        className={
+          formValidation.name === false
+            ? "mandatory-alert mandatory-field"
+            : "mandatory-field"
+        }
+      >
         Name
       </label>
-      <input type="text" id="name" ref={nameRef} />
+      <input
+        type="text"
+        id="name"
+        ref={nameRef}
+        className={formValidation.name === false ? "mandatory-alert" : ""}
+      />
+      {formValidation.name === false && (
+        <span class="mandatory-alert">Enter your name</span>
+      )}
 
-      <label htmlFor="password" className="mandatory-field">Password</label>
-      <input type="password" id="password" ref={passwRef} />
+      <label
+        htmlFor="password"
+        className={
+          formValidation.email === false
+            ? "mandatory-alert mandatory-field"
+            : "mandatory-field"
+        }
+      >
+        Password
+      </label>
+      <input
+        type="password"
+        id="password"
+        ref={passwRef}
+        className={formValidation.email === false ? "mandatory-alert" : ""}
+      />
       <ul>
-        <li className={passError.characters === false ? "register-incorrect" : "register-correct"}>Minimum 9 characters long</li>
-        <li>At least 4 lowercase letters</li>
-        <li>At least 2 uppercase letters</li>
-        <li>At least 1 number</li>
-        <li>At least 1 special character</li>
+        <li
+          className={
+            passError.characters === false
+              ? "register-incorrect"
+              : "register-correct"
+          }
+        >
+          Minimum 9 characters long
+        </li>
+        <li
+          className={
+            passError.lowerCase === false
+              ? "register-incorrect"
+              : "register-correct"
+          }
+        >
+          At least 4 lowercase letters
+        </li>
+        <li
+          className={
+            passError.upperCase === false
+              ? "register-incorrect"
+              : "register-correct"
+          }
+        >
+          At least 2 uppercase letters
+        </li>
+        <li
+          className={
+            passError.number === false
+              ? "register-incorrect"
+              : "register-correct"
+          }
+        >
+          At least 1 number
+        </li>
+        <li
+          className={
+            passError.specChar === false
+              ? "register-incorrect"
+              : "register-correct"
+          }
+        >
+          At least 1 special character
+        </li>
       </ul>
 
       <label htmlFor="phone">Phone</label>
