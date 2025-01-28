@@ -12,6 +12,7 @@
   border: 1px solid rgba(217, 217, 217, 1);
   max-width: 340px;
   margin-top: 40px;
+  margin-bottom: 40px;
   padding: 40px;
   font-size: 16px;
   border-radius: 8px;
@@ -58,6 +59,7 @@
   border-radius: 3px;
   border: none;
   width: 100%;
+  cursor: pointer;
 }
 
 .access-form-btn:hover {
@@ -95,6 +97,18 @@ label.mandatory-alert {
   background-color: rgba(255, 84, 84, 0.139);
   padding: 10px;
   margin-bottom: 24px;
+}
+
+.success-alert {
+    color: rgb(0, 128, 79);
+    text-align: center;
+    width: 100%;
+    display:block;
+}
+
+.success-alert a {
+    font-weight: 600;
+    color: #000;
 }
 
 .artist-check-container {

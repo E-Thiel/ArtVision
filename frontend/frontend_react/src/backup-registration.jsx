@@ -35,8 +35,7 @@ const Register = () => {
     if (errorMess.status === false){
     return (
         <span className="success-alert">
-        Account successfully created!<br />
-        <a href="/sign-in">Sign-in</a>
+        Account successfully created!
       </span>
     )}
   }
@@ -256,7 +255,7 @@ const Register = () => {
       <label
         htmlFor="password"
         className={
-          formValidation.password === false
+          formValidation.email === false
             ? "mandatory-alert mandatory-field"
             : "mandatory-field"
         }
@@ -267,7 +266,7 @@ const Register = () => {
         type="password"
         id="password"
         ref={passwRef}
-        className={formValidation.password === false ? "mandatory-alert" : ""}
+        className={formValidation.email === false ? "mandatory-alert" : ""}
       />
       <ul>
         <li
@@ -327,7 +326,7 @@ const Register = () => {
         <label htmlFor="artist-check">Are you an artist?</label>
         <input type="checkbox" id="artist-check" ref={artistRef} />
       </div>
-      {errorMess.status != false && <input type="submit" value="Register" class="access-form-btn" />}
+      <input type="submit" value="Register" class="access-form-btn" />
       <SuccessAlert/>
     </form>
   );

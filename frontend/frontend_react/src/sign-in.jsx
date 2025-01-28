@@ -7,7 +7,7 @@ const SignIn = () => {
   //Basic setup for HTML error message
   const [errorMess, setErrorMess] = useState({
     status: false,
-    message: "",
+    message: ""
   });
 
   const emailRef = useRef();
@@ -17,9 +17,7 @@ const SignIn = () => {
   const ErrorAlert = () => {
     if (errorMess.status === true) {
       return (
-        <div>
-          <div className="login-alert login-warning">{errorMess.message}</div>
-        </div>
+          <div className="login-alert">{errorMess.message}</div>
       );
     }
   };
@@ -40,14 +38,14 @@ const SignIn = () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result.Status);
         if (result.Status === "Success") {
-          alert("Logged in");
-          //localStorage.setItem(LSKEY + ".key", JSON.stringify(result.key));
+          //Stores in local storage
+          localStorage.setItem(LSKEY + ".key", JSON.stringify(result.key));
+          //Creates cookie
           document.cookie = `tokenKey=${JSON.stringify(
             result.key
           )}; expires=${new Date(Date.now() + 120 * 1000).toUTCString()}`;
-          //insert homepage link here :
+          //Redirects to homepage
           window.location.href = "/home";
         } else if (
           //Updates the HTML error message status and makes it visible
@@ -75,7 +73,7 @@ const SignIn = () => {
       <input type="password" id="password" ref={passwRef} />
       <input type="submit" value="Sign in" class="access-form-btn" />
       <span>
-        No account yet? <a href="#">Register here</a>
+        No account yet? <a href="/register">Register here</a>
       </span>
     </form>
   );
