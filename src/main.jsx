@@ -5,6 +5,8 @@ import Header from "./pages/HomePage/components/Header/Header.jsx";
 import Home from "./pages/HomePage/Home.jsx";
 import ProductDetail from "./pages/ProductDetail/ProductDetail.jsx";
 import Cart from './pages/Cart/Cart.jsx';
+import Signin from './pages/Authorisation/sign-in.jsx'
+import Register from './pages/Authorisation/register.jsx'
 
 
 const App = () => {
@@ -15,6 +17,8 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/sign-in" element={<Signin />}/>
+                <Route path="/register" element={<Register />}/>
             </Routes>
         </Router>
     );

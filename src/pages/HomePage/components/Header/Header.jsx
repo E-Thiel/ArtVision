@@ -8,11 +8,11 @@ function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleLogin = () => {
-    setIsAuthenticated(true);
+    //setIsAuthenticated(true);
   };
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    //setIsAuthenticated(false);
   };
 ////////////////////////////////////////////////////////////////////
 
@@ -51,8 +51,8 @@ function Header() {
                 <Link to="/cart" className="cart-icon">
                     <img src="/svg/header/Shopping%20Cart.svg" alt="cart" />
                 </Link>
-              <button onClick={handleLogin} className="login-btn" >Sign In</button>
-              <button onClick={handleLogin} className="reg-btn">Register</button>
+              <Link to="/sign-in"><button onClick={handleLogin} className="login-btn" >Sign In</button></Link>
+              <Link to="/register"><button onClick={handleLogin} className="reg-btn">Register</button></Link>
             </div>
           )}
         </div>
