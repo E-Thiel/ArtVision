@@ -57,7 +57,7 @@ function Product() {
 
   const truncateDescription = (desc) => {
     if (!desc) return "";
-    return desc.length > 120 ? desc.slice(0, 120) + "..." : desc;
+    return desc.length > 64 ? desc.slice(0, 64) + "..." : desc;
   };
 
   const handleAddToCart = async (product) => {

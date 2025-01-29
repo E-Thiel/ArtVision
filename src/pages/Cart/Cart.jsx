@@ -1,3 +1,4 @@
+// Cart.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { viewCartServer, getAll } from "../../api/fetch.js";
@@ -12,9 +13,7 @@ function Cart() {
         const token = localStorage.getItem("authToken");
         if (token) {
             setIsAuthorized(true);
-
             localStorage.removeItem("cartItems");
-
             loadCartFromServer();
         } else {
             setIsAuthorized(false);
@@ -58,6 +57,16 @@ function Cart() {
         }
     };
 
+    const handleCheckout = async () => {
+        if (!isAuthorized) {
+            alert("Please log in to proceed with the payment.");
+            return;
+        }
+        console.error("not done");
+    };
+
+    const totalPrice = cartItems.reduce((acc, item) => acc + parseFloat(item.price), 0);
+
     return (
         <div className="cart-container">
             <h1 className="cart-title">Your Cart</h1>
@@ -65,29 +74,39 @@ function Cart() {
             {cartItems.length === 0 ? (
                 <p className="cart-empty">Your cart is empty</p>
             ) : (
-                <div className="cart-grid">
-                    {cartItems.map((item, index) => {
-                        const imageUrl = item.share_path || item.image || "/images/no-image.png";
-                        const itemTitle = item.title || "Untitled";
-                        const itemPrice = item.price || 0;
+                <>
+                    <div className="cart-grid">
+                        {cartItems.map((item, index) => {
+                            const imageUrl = item.share_path || item.image || "/images/no-image.png";
+                            const itemTitle = item.title || "Untitled";
+                            const itemPrice = item.price || 0;
 
-                        return (
-                            <div
-                                key={index}
-                                className="cart-card"
-                                onClick={() => handleItemClick(item)}
-                            >
-                                <div className="cart-card-image">
-                                    <img src={imageUrl} alt={itemTitle} />
+                            return (
+                                <div
+                                    key={index}
+                                    className="cart-card"
+                                    onClick={() => handleItemClick(item)}
+                                >
+                                    <div className="cart-card-image">
+                                        <img src={imageUrl} alt={itemTitle} />
+                                    </div>
+                                    <div className="cart-card-info">
+                                        <h2>{itemTitle}</h2>
+                                        <p className="cart-card-price">${itemPrice}</p>
+                                    </div>
                                 </div>
-                                <div className="cart-card-info">
-                                    <h2>{itemTitle}</h2>
-                                    <p className="cart-card-price">${itemPrice}</p>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
+                            );
+                        })}
+                    </div>
+                    <div className="checkout-section">
+                        <div className="total-price">
+                            <h3>Total: ${totalPrice.toFixed(2)}</h3>
+                        </div>
+                        <button className="checkout-button" onClick={handleCheckout}>
+                            Checkout
+                        </button>
+                    </div>
+                </>
             )}
         </div>
     );

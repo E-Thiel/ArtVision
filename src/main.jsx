@@ -6,14 +6,8 @@ import Home from "./pages/HomePage/Home.jsx";
 import ProductDetail from "./pages/ProductDetail/ProductDetail.jsx";
 import Cart from './pages/Cart/Cart.jsx';
 
-const TOKEN = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InJvdGkiLCJlbWFpbCI6InJvdGlAeWFob28uY29tIiwiaWQiOjEsImlhdCI6MTczNzQ1NTcyOH0.7w1_osj-u4C0aPZUCg0kMtTqBRHAdNalJSCyY09WkYdg8_BNaRZ2jyuOlrjgyPMvgZqnkHMnpVvAy7bB98JLEA";
 
 const App = () => {
-    useEffect(() => {
-        // test token
-        localStorage.setItem("authToken", TOKEN);
-    }, []);
-
     return (
         <Router>
             <Header />

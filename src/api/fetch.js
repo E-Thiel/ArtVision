@@ -56,21 +56,6 @@ export const getAll = async () => {
     return await response.json();
 };
 
-export const getByIdUser = async (idUser) => {
-    const response = await fetch(`${URL}/picture/getByIdUser`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idUser }),
-    });
-
-    if (!response.ok) {
-        throw new Error("Failed to fetch pictures by user ID");
-    }
-    return await response.json();
-};
-
 export const getByArtist = async (artistId) => {
     const response = await fetch(`${URL}/review/getByArtist`, {
         method: 'POST',
@@ -100,39 +85,6 @@ export const getFilteredItems = async (filters) => {
     }
     return await response.json();
 };
-
-export const registerUser = async (userData) => {
-    const response = await fetch(`${URL}/auth/register`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-    });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Register failed: ${errorText}`);
-    }
-    return await response.json();
-};
-
-export const loginUser = async (userName, password) => {
-    const response = await fetch(`${URL}/auth/login`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userName, password }),
-    });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Login failed: ${errorText}`);
-    }
-    return await response.json();
-};
-
 
 export const addToCartServer = async (id_painting, price) => {
     const token = localStorage.getItem("authToken");
