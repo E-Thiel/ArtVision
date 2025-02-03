@@ -22,17 +22,27 @@ function Header() {
         <div className="navbar-left">
             {/*---------------ArtVision Logo---------------*/}
           <div className="header-logo">
-            <a href="#">Art<span className="highlight">Vision</span></a>
+            <Link className="header-logo" to="/">
+              Art<span className="highlight">Vision</span>
+            </Link>
           </div>
 
           {/*---------------Links---------------*/}
           <ul className="nav-links">
-            <li className="nav-link"><img src="/svg/header/Home.svg" alt="home" />Home</li>
             <li className="nav-link">
-              <img src="/svg/header/About.svg" alt="about" />About
+              <Link className="nav-link" to="/">
+                <img src="/svg/header/Home.svg" alt="home" />Home
+              </Link>
             </li>
             <li className="nav-link">
-              <img src="/svg/header/Support.svg" alt="support" />Support
+              <Link className="nav-link" to="/about">
+                <img src="/svg/header/About.svg" alt="about" />About
+              </Link>
+            </li>
+            <li className="nav-link">
+              <Link className="nav-link" to="/support">
+                <img src="/svg/header/Support.svg" alt="support" />Support
+              </Link>
             </li>
           </ul>
         </div>

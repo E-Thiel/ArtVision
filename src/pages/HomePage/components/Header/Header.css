@@ -54,6 +54,13 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    color: white;
+    text-decoration: none;
+
+    &:hover {
+        color: #00ADB5;
+        text-decoration: underline;
+    }
 }
 
 .not-login-actions{
