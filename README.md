@@ -21,3 +21,8 @@
 - **sign-in.jsx**: Signin form component. Once the user is correctly logged in, it generates a token that is stored as a cookie or in the local storage (as you prefer) and redirects to the homepage.
 
 Both register.jsx and sign-in.jsx share multiple CSS properties, and use the registersignin.css stylesheet
+
+
+### Backend
+
+The repository is located at https://github.com/rotiadi/ArtVision
