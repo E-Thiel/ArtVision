@@ -85,3 +85,52 @@
 .add-to-cart:hover {
   background-color: #555;
 }
+
+
+body.dark-mode .product-card {
+  background-color: #14151d;
+  border: 1px solid #2c2f34;
+}
+
+body.dark-mode .product-info h3 {
+  color: #acacac;
+}
+
+body.dark-mode .filters{
+  background-color: #14151d;
+  border: 1px solid #2c2f34;
+  color: #acacac;
+}
+
+body.dark-mode .filters h3{
+  color: #acacac;
+}
+
+body.dark-mode .product-price {
+  color: #ffffff;
+}
+
+body.dark-mode .filters label {
+  color: #acacac;
+}
+
+body.dark-mode .product-grid button{
+  background-color: #196569;
+  color: #ffffff;
+}
+
+body.dark-mode .product-grid button:hover{
+  background-color: #8eced1;
+  color: #ffffff;
+}
+
+body.dark-mode .filters-section button{
+  background-color: #196569;
+  color: #ffffff;
+}
+
+body.dark-mode .filters-section button:hover{
+  background-color: #8eced1;
+  color: #ffffff;
+}
+

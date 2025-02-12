@@ -181,3 +181,24 @@
   color: #333;
   font-weight: bold;
 }
+
+
+body.dark-mode .product-detail-page .product-title {
+  color: #acacac;
+}
+
+body.dark-mode .product-detail-page .product-price {
+  color: #acacac;
+}
+
+body.dark-mode .product-detail-page .product-description {
+  color: #9eb6c7;
+}
+
+body.dark-mode .product-detail-page .product-actions {
+  color: #acacac;
+}
+
+body.dark-mode .product-detail-page .add-to-cart-button  .more-product-title{
+  color: #acacac;
+}

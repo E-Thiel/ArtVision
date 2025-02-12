@@ -79,3 +79,53 @@
     padding: 5px 14px;
     background-color: #D9D9D9;
 }
+
+
+body.dark-mode {
+  background-color: #070707;
+  color:  #ffffff !important; 
+}
+
+body.dark-mode h1 {
+  color: #ffffff;
+}
+
+body.dark-mode p {
+  color: #ffffff;
+}
+
+body.dark-mode label {
+  color: #cacaca;
+}
+
+.product-card {
+  background-color: #1e1e1e;
+}
+
+.header {
+  transition: background-color 0.5s, color 0.5s ease-in-out;
+}
+
+.header.dark-mode {
+  background-color: #1e1e1e;
+}
+
+.nav-links .nav-link {
+  transition: color 0.3s;
+}
+
+.nav-links.dark-mode .nav-link {
+  color: #ffffff;
+}
+
+.dark-mode-toggle {
+    color: #EEEEEE;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 14px;
+    background-color: #677d80;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+

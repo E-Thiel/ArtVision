@@ -6,6 +6,7 @@ function Header() {
 
 ////////////////////////////////////////////////////////////////////
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleLogin = () => {
     //setIsAuthenticated(true);
@@ -13,6 +14,11 @@ function Header() {
 
   const handleLogout = () => {
     //setIsAuthenticated(false);
+  };
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.body.classList.toggle('dark-mode', !isDarkMode);
   };
 ////////////////////////////////////////////////////////////////////
 
@@ -53,6 +59,9 @@ function Header() {
                 </Link>
               <Link to="/sign-in"><button onClick={handleLogin} className="login-btn" >Sign In</button></Link>
               <Link to="/register"><button onClick={handleLogin} className="reg-btn">Register</button></Link>
+              <button onClick={toggleDarkMode} className="dark-mode-toggle">
+                {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+              </button>
             </div>
           )}
         </div>
